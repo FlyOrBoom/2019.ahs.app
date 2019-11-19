@@ -65,10 +65,15 @@ nav{
   font-weight:400;
 }
 #credit{
+  text-decoration:none;
+  color:#fff;
   position:absolute;
   right:0;
   font-weight:400;
   opacity:.8;
+}
+#credit:hover{
+  opacity:1;
 }
 main{
   margin-top:1rem;
@@ -88,6 +93,9 @@ section{
   position:relative;
   padding:.5rem;
   display:flex;
+}
+section:first-child{
+  height:4rem;
 }
 section>h1{
   font-weight:500;
@@ -113,7 +121,7 @@ section>.video{
   flex:0 0 33.78rem;
   max-width:calc(100vw - 2rem);
   border:solid .2rem var(--primary);
-  margin-right:3.5rem;
+  margin-right:4rem;
 }
 a{
   text-decoration:none;
@@ -137,7 +145,7 @@ a:hover,a:focus{
     </style>
   </head>
   <body>
-    <nav><span id='time'></span>ahs.app<span id='credit'>by xing</span></nav>
+    <nav><span id='time'></span>ahs.app<a href='https://lxing.dev' id='credit'>by xing</a></nav>
     <main>
       <section>
         <h1>links</h1>
