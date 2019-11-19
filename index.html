@@ -106,14 +106,16 @@ section{
   margin:0 .1rem;
   display:block;
 }
-section:first-child{
+section:first-child,section:last-child{
   flex:0 0 4rem;
+}
+section:first-child{
   margin-left:0;
 }
 section:last-child{
   margin-right:0;
 }
-section:nth-child(2){
+section:nth-child(2),section:nth-last-child(2){
   scroll-snap-align:none;
   flex:0 0 calc(50vw - 4rem);
 }
@@ -145,7 +147,7 @@ h1{
   border:solid .2rem var(--primary);
 }
 .pdf{
-  height:88%;
+  height:calc(100% - 3.5rem);
 }
 .video{
   height:28.125vw;
@@ -220,7 +222,7 @@ a:visited{
       <a href='#apn'>Apache News</a>
       <a href='#powwow'>PowWow</a>
       <a href='#social'>Social media</a>
-      <a href='#settings'>Settings</a>
+      <a href='#preferences'>preferences</a>
     </nav>
     <main>
       <section id='links'>
@@ -242,15 +244,40 @@ a:visited{
       </section>
       <section id='powwow'>
         <h1>Pow Wow</h1>
-        <script src="https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js"></script>
-        <div>More at Apache Pow Wow</div>
+        <div id='powwow-feed'>
+          <script src='https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js'></script>
+        </div>
+        <div>Read more at the <a href='https://theapachepowwow.net'>Apache Pow Wow</a> website.</div>
       </section>
       <section id='social'>
         <h1>Social media</h1>
       </section>
+      <section id='preferences'>
+      </section>
     </main>
     <script>
-document.getElementById('time').innerText=new Date().toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
+const doc = document,
+      dom = {
+        date:doc.getElementById('time'),
+        powwowFeed:doc.getElementById('powwow-feed')
+      },
+      preferences = {
+        darkMode:false,
+        arrangement:['notes','bulletin','apn','powwow','social','preferences']
+      };
+
+if(dom.powwowFeed.innerText){
+  window.localStorage.setItem('powwowFeed',dom.powwowFeed.innerHTML.slice(0,-134));
+}else if(window.localStorage.getItem('powwowFeed')){
+  dom.powwowFeed.innerHTML = window.localStorage.getItem('powwowFeed');
+}else{
+  dom.powwowFeed.innerText = 'Cannot load feed.';
+}
+
+dom.date.innerText = new Date().toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
+document.getElementById('powwow-feed').innerHTML = cached.powwow;
+
+
     </script>
   </body>
 </html>
