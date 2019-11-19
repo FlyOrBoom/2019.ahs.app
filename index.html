@@ -12,6 +12,9 @@
   font-family:'IBM Plex';
   src:url('assets/plex/var-roman.woff2') format('woff2');
 }
+*{
+  box-sizing:border-box;
+}
 html{
   font-size:22px;
 }
@@ -29,6 +32,11 @@ html{
     opacity:.8;
   }
 }
+@media only screen and (max-width:400px){
+  #credit{
+    display:none;
+  }
+}
 :root{
   --primary:#f26;
   --secondary:#62f;
@@ -37,7 +45,7 @@ html,body{
   margin:0;
   width:100%;
   height:100%;
-  overflow-x:hidden;
+  overflow:hidden;
 }
 body{
   background:#eee;
@@ -63,17 +71,22 @@ nav{
   right:0;
 }
 main{
-  margin-top:2rem;
+  margin-top:1rem;
+  scroll-snap-type:y proximity;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  height:100vh;
 }
 section{
+  scroll-snap-align:center;
   overflow-x:scroll;
+  overflow-y:hidden;
   margin:1rem 0;
   width:200%;
   height:20rem;
   background:#fff;
   position:relative;
   padding:.5rem .5rem .5rem 1.5rem;
-  box-sizing:border-box;
 }
 section:first-child{
   height:4rem;
@@ -83,7 +96,7 @@ section:first-child>h1{
   left:-2rem;
   top:2rem;
 }
-h1{
+section>h1{
   font-weight:normal;
   font-size:1rem;
   margin:0;
@@ -97,6 +110,11 @@ h1{
   text-align:center;
   background:var(--primary);
   color:#fff;
+}
+section>*:not(h1){
+  height:100%;
+  width:33.78rem;
+  border:solid .2rem var(--primary);
 }
 a{
   text-decoration:none;
@@ -120,6 +138,7 @@ a:hover,a:focus{
       </section>
       <section>
         <h1>apache news</h1>
+        <embed src='https://www.youtube.com/embed/live_stream?channel=UC6G_LCSmfd9q34BMao87E0g'>
       </section>
       <section>
         <h1>powwow</h1>
