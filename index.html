@@ -135,15 +135,15 @@ h1{
   background-color:var(--primary);
   color:var(--background);
 }
-.notepad{
+#notepad{
   min-height:10rem;
   padding:.2rem;
 }
-.notepad:focus{
+#notepad:focus{
   outline:none;
   border-width:.1rem;
 }
-.video,.pdf,.notepad{
+.video,.pdf,#notepad{
   border:solid .2rem var(--primary);
 }
 .pdf{
@@ -231,8 +231,7 @@ a:visited{
       </section>
       <section id='notes'>
         <h1>Notepad</h1>
-        <div class='notepad' contenteditable></div>
-        <div>saved locally</div>
+        <div id='notepad' contenteditable></div>
       </section>
       <section id='bulletin'>
         <h1>Bulletin</h1>
@@ -259,7 +258,8 @@ a:visited{
 const doc = document,
       dom = {
         date:doc.getElementById('time'),
-        powwowFeed:doc.getElementById('powwow-feed')
+        powwowFeed:doc.getElementById('powwow-feed'),
+        notepad:doc.getElementById('notepad')
       },
       preferences = {
         darkMode:false,
@@ -274,9 +274,15 @@ if(dom.powwowFeed.innerText){
   dom.powwowFeed.innerText = 'Cannot load feed.';
 }
 
-dom.date.innerText = new Date().toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
-document.getElementById('powwow-feed').innerHTML = cached.powwow;
+if(window.localStorage.getItem('notepad')){
+  dom.notepad.innerText = window.localStorage.getItem('notepad');
+}
 
+dom.date.innerText = new Date().toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
+
+dom.notepad.addEventListener('keyup',function(e){
+  window.localStorage.setItem('notepad',this.innerText);
+});
 
     </script>
   </body>
