@@ -21,7 +21,7 @@ html{
   --secondary:#62f;
   --shade:#eee;
   --background:#fff;
-  --main:#000;
+  --main:#222;
 }
 html,body{
   margin:0;
@@ -33,7 +33,7 @@ body{
   background:var(--shade);
   background-size:100% 100%;
   font-family:'IBM Plex Sans',monospace;
-  font-weight:500;
+  font-weight:400;
   color:var(--main);
 }
 header{
@@ -45,6 +45,9 @@ header{
   text-align:center;
   position:fixed;
   z-index:100;
+}
+header,nav{
+  font-weight:500;
 }
 nav{
   bottom:0;
@@ -87,7 +90,7 @@ section{
   height:inherit;
   background:var(--background);
   position:relative;
-  padding:.5rem;
+  padding:1rem;
   margin:0 .1rem;
   display:block;
 }
@@ -101,24 +104,27 @@ section:last-child{
 section:nth-child(2){
   flex:0 0 calc(50vw - 4rem);
 }
-section>h1{
-  font-weight:500;
-  font-size:1rem;
-  height:1.25rem;
-  position:sticky;
-  top:0;
-  transform:translateY(90vh);
-  text-align:center;
-  background:var(--primary);
-  color:var(--background);
-  z-index:100;
-}
-section>*:not(h1){
+section>*{
   width:100%;
 }
-section>.video{
-  height:28.125vw;
+h1{
+  margin:0 0 1rem 0;
+  font-weight:500;
+}
+.notepad{
+  min-height:10rem;
+  padding:.2rem;
+}
+.notepad:focus{
+  outline:none;
+  border-width:.1rem;
+}
+.video,.notepad{
   border:solid .2rem var(--primary);
+}
+
+.video{
+  height:28.125vw;
 }
 a{
   text-decoration:none;
@@ -132,9 +138,13 @@ a:visited{
   filter:brightness(.8);
 }
 .feed-item-title{
+  width:92%;
+  margin-left:2%;
 }
 .feed-item-desc{
-  opacity:.6;
+  width:92%;
+  margin-left:4%;
+  opacity:.7;
 }
 @media screen and (max-width:700px){
   html{
@@ -175,7 +185,7 @@ a:visited{
     <header><span id='time'></span>ahs.app<a href='https://lxing.dev' id='credit'>by xing</a></header>
     <nav>
       <a href='#links'>Quick links</a>
-      <a href='#notes'>Agenda</a>
+      <a href='#notes'>Notepad</a>
       <a href='#bulletin'>Bulletin</a>
       <a href='#news'>News</a>
       <a href='#social'>Social media</a>
@@ -186,16 +196,23 @@ a:visited{
         <a href='https://student.headeriance.com/arcadiahs'>headeriance</a>
       </section>
       <section id='notes'>
-        <div contenteditable></div>
+        <h1>Notepad</h1>
+        <div class='notepad' contenteditable></div>
+        <div>saved locally</div>
       </section>
       <section id='bulletin'>
+        <h1>Bulletin</h1>
       </section>
       <section id='news'>
+        <h1>Apache News</h1>
         <embed class='video' src='https://www.youtube-nocookie.com/embed/live_stream?channel=UC6G_LCSmfd9q34BMao87E0g'>
-        <h2>powwow</h2>
+      </section>
+      <section id='powwow'>
+        <h1>PowWow</h1>
         <script src="https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js"></script>
       </section>
       <section id='social'>
+        <h1>Social media</h1>
       </section>
     </main>
     <script>
