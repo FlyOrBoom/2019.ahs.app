@@ -55,7 +55,7 @@ nav{
   height:1.25rem;
   position:fixed;
   z-index:100;
-  background:var(--background);
+  background:var(--shade);
   display:flex;
 }
 nav>a{
@@ -114,6 +114,7 @@ section:last-child{
   margin-right:0;
 }
 section:nth-child(2){
+  scroll-snap-align:none;
   flex:0 0 calc(50vw - 4rem);
 }
 section>*{
@@ -171,6 +172,9 @@ a:visited{
   section{
     flex:0 0 100vw;
   }
+  section:nth-child(2){
+    flex:0 0 calc(100vw - 4rem);
+  }
 }
 @media only screen and (max-width:400px){
   #credit{
@@ -221,8 +225,9 @@ a:visited{
         <embed class='video' src='https://www.youtube-nocookie.com/embed/live_stream?channel=UC6G_LCSmfd9q34BMao87E0g'>
       </section>
       <section id='powwow'>
-        <h1>PowWow</h1>
+        <h1>Pow Wow</h1>
         <script src="https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js"></script>
+        <div>More at Apache Pow Wow</div>
       </section>
       <section id='social'>
         <h1>Social media</h1>
