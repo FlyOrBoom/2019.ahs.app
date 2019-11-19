@@ -185,7 +185,7 @@ a:visited{
   section{
     flex:0 0 100vw;
   }
-  section:nth-child(2){
+  section:nth-child(2),section:nth-last-child(2){
     flex:0 0 calc(100vw - 4rem);
   }
   .video{
@@ -259,7 +259,8 @@ const doc = document,
       dom = {
         date:doc.getElementById('time'),
         powwowFeed:doc.getElementById('powwow-feed'),
-        notepad:doc.getElementById('notepad')
+        notepad:doc.getElementById('notepad'),
+        main:doc.getElementsByTagName('main')[0]
       },
       preferences = {
         darkMode:false,
@@ -283,6 +284,19 @@ dom.date.innerText = new Date().toLocaleDateString('en-US', {hour12: true, month
 dom.notepad.addEventListener('keyup',function(e){
   window.localStorage.setItem('notepad',this.innerText);
 });
+
+dom.main.addEventListener('scroll',function(e){
+  Array.from(doc.getElementsByTagName('section')).forEach(function(f){
+    if(Math.abs(f.getBoundingClientRect().left)<50){
+      if(f.id==='links'){
+        window.history.pushState({},'ahs.app',' ');
+      }else{
+        window.history.pushState({},'ahs.app','#'+f.id);
+      }
+    }
+  });
+});
+
 
     </script>
   </body>
