@@ -16,25 +16,12 @@
 html{
   font-size:22px;
 }
-@media only screen and (max-width:700px){
-  html{
-    font-size:24px;
-  }
-  nav{
-    text-align:left;
-  }
-  #time{
-    display:none;
-  }
-}
-@media only screen and (max-width:400px){
-  #credit{
-    display:none;
-  }
-}
 :root{
   --primary:#f26;
   --secondary:#62f;
+  --shade:#eee;
+  --background:#fff;
+  --main:#000;
 }
 html,body{
   margin:0;
@@ -43,18 +30,24 @@ html,body{
   overflow:hidden;
 }
 body{
-  background:#eee;
+  background:var(--shade);
   background-size:100% 100%;
   font-family:'IBM Plex Sans',monospace;
   font-weight:500;
+  color:var(--main);
 }
-nav{
+header{
   width:100%;
   height:1.25rem;
   top:-.25rem;
   background:var(--primary);
-  color:#fff;
+  color:var(--background);
   text-align:center;
+  position:fixed;
+  z-index:100;
+}
+nav{
+  bottom:0;
   position:fixed;
   z-index:100;
 }
@@ -66,7 +59,7 @@ nav{
 }
 #credit{
   text-decoration:none;
-  color:#fff;
+  color:var(--background);
   position:absolute;
   right:0;
   font-weight:400;
@@ -76,52 +69,56 @@ nav{
   opacity:1;
 }
 main{
-  margin-top:1rem;
-  scroll-snap-type:y proximity;
-  overflow-x:hidden;
-  overflow-y:scroll;
-  height:100vh;
-}
-section{
-  scroll-snap-align:center;
+  position:fixed;
+  scroll-snap-type:x mandatory;
   overflow-x:scroll;
   overflow-y:hidden;
-  margin:.4rem 0;
-  width:100%;
-  height:20rem;
-  background:#fff;
+  width:100vw;
+  top:1rem;
+  height:calc(100vh - 1rem);
+  display:flex;
+  scroll-behavior:smooth;
+}
+section{
+  scroll-snap-align:start;
+  overflow-x:hidden;
+  overflow-y:scroll;
+  flex:0 0 50vw;
+  height:inherit;
+  background:var(--background);
   position:relative;
   padding:.5rem;
-  display:flex;
+  margin:0 .1rem;
+  display:block;
 }
 section:first-child{
-  height:4rem;
+  flex:0 0 4rem;
+  margin-left:0;
+}
+section:last-child{
+  margin-right:0;
+}
+section:nth-child(2){
+  flex:0 0 calc(50vw - 4rem);
 }
 section>h1{
   font-weight:500;
   font-size:1rem;
-  margin:-.5rem -.75rem;
-  left:-.75rem;
-  width:1.25rem;
+  height:1.25rem;
   position:sticky;
-  display:block;
-  height:inherit;
+  top:0;
+  transform:translateY(90vh);
   text-align:center;
-  writing-mode:vertical-rl;
-  transform:rotate(180deg);
   background:var(--primary);
-  color:#fff;
+  color:var(--background);
   z-index:100;
 }
 section>*:not(h1){
-  height:100%;
-  transform:translateX(1.5rem);
+  width:100%;
 }
 section>.video{
-  flex:0 0 33.78rem;
-  max-width:calc(100vw - 2rem);
+  height:28.125vw;
   border:solid .2rem var(--primary);
-  margin-right:4rem;
 }
 a{
   text-decoration:none;
@@ -130,39 +127,75 @@ a{
 a:hover,a:focus{
   color:var(--primary);
 }
+a:visited{
+  color:var(--secondary);
+  filter:brightness(.8);
+}
 .feed-item-title{
-  flex:0 0 20rem;
-  margin:0 0 0 1rem;
-  white-space:nowrap;
-  overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,#fff 14rem,#fff0 16rem)
 }
 .feed-item-desc{
-  flex:0 0 14rem;
-  opacity:.8;
-  margin:1.5rem 3rem 0 -20rem;
+  opacity:.6;
+}
+@media screen and (max-width:700px){
+  html{
+    font-size:24px;
+  }
+  header{
+    text-align:left;
+  }
+  #time{
+    display:none;
+  }
+  section{
+    flex:0 0 100vw;
+  }
+}
+@media only screen and (max-width:400px){
+  #credit{
+    display:none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root{
+    --primary:#f37;
+    --secondary:#86f;
+    --background:#111;
+    --shade:#000;
+    --main:#fff;
+  }
 }
     </style>
   </head>
   <body>
-    <nav><span id='time'></span>ahs.app<a href='https://lxing.dev' id='credit'>by xing</a></nav>
+    <header><span id='time'></span>ahs.app<a href='https://lxing.dev' id='credit'>by xing</a></header>
+    <nav>
+      <a href='#links'>Quick links</a>
+      <a href='#notes'>Agenda</a>
+      <a href='#bulletin'>Bulletin</a>
+      <a href='#news'>News</a>
+      <a href='#social'>Social media</a>
+    </nav>
     <main>
-      <section>
-        <h1>links</h1>
+      <section id='links'>
         <a href='https://powerschool.ausd.net'>powerschool</a>
-        <a href='https://student.naviance.com/arcadiahs'>naviance</a>
+        <a href='https://student.headeriance.com/arcadiahs'>headeriance</a>
       </section>
-      <section>
-        <h1>bulletin</h1>
+      <section id='notes'>
+        <div contenteditable></div>
+      </section>
+      <section id='bulletin'>
       </section>
       <section id='news'>
-        <h1>news</h1>
-        <embed class='video' src='https://www.youtube.com/embed/live_stream?channel=UC6G_LCSmfd9q34BMao87E0g'>
-        <h1>powwow</h1>
+        <embed class='video' src='https://www.youtube-nocookie.com/embed/live_stream?channel=UC6G_LCSmfd9q34BMao87E0g'>
+        <h2>powwow</h2>
         <script src="https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js"></script>
       </section>
-      <section>
-        <h1>instagram</h1>
+      <section id='social'>
       </section>
     </main>
     <script>
