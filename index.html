@@ -153,13 +153,38 @@ h1{
 #notepad{
   min-height:10rem;
   padding:.2rem;
+  margin-bottom:1rem;
 }
 #notepad:focus{
   outline:none;
   border-width:.1rem;
 }
-.video,.pdf,#notepad{
+.video,.pdf,#notepad,.schedule{
   border:solid .2rem var(--primary);
+}
+.schedule{
+  table-layout:fixed;
+  text-align:center;
+}
+#schedule-select{
+  all:unset;
+  display:inline-flex;
+  width:100%;
+  justify-content:space-around;
+}
+#schedule-select>label{
+  flex:1 0 1rem;
+  text-align:center;
+  color:var(--link);
+  cursor:pointer;
+}
+#schedule-select>input{
+  display:none;
+}
+#schedule-select>input[type="radio"]:checked+label{
+  color:var(--background);
+  background:var(--primary);
+  font-weight:500;
 }
 .pdf{
   height:calc(100% - 3.5rem);
@@ -200,6 +225,7 @@ a:visited{
   }
   nav>a{
     -webkit-mask-image:linear-gradient(90deg,#fff 50%,#fff8);
+    mask-image:linear-gradient(90deg,#fff 50%,#fff8);
   }
   #time{
     display:none;
@@ -239,14 +265,14 @@ a:visited{
   </head>
   <body>
     <nav>
-      <a tabindex='100' href='#links'>Quick links</a>
+      <a href='#links'>Quick links</a>
       <a href='#agenda'>Agenda</a>
       <a href='#bulletin'>Bulletin</a>
       <a href='#apn'>Apache News</a>
       <a href='#powwow'>Pow Wow</a>
       <a href='#twitter'>Twitter</a>
     </nav>
-    <header tabindex='0'><span id='time'></span>ahs.app<a href='https://lxing.dev' id='credit'>by xing</a></header>
+    <header tabindex='-1'><span id='time'></span>ahs.app<a href='https://lxing.dev' id='credit' tabindex='-1'>by xing</a></header>
     <main>
       <section id='links'>
         <a href='https://classroom.google.com' title='Google Classroom'>
@@ -267,6 +293,125 @@ a:visited{
       <section id='agenda'>
         <h1>Agenda</h1>
         <div id='notepad' contenteditable></div>
+        <form id='schedule-select'>
+
+          <input type='radio' name='schedule-select' id='schedule-select-normal' value='normal' checked>
+          <label for='schedule-select-normal'>Normal</label>
+
+          <input type='radio' name='schedule-select' id='schedule-select-wed' value='wed'>
+          <label for='schedule-select-wed'>Wednesday</label>
+
+          <input type='radio' name='schedule-select' id='schedule-select-mini' value='mini'>
+          <label for='schedule-select-mini'>Minimum Day</label>
+
+          
+        </form>
+        <table class='schedule' id='schedule-normal'>
+          <tr>
+            <td>1</td>
+            <td>08:00</td>
+            <td>08:57</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>09:04</td>
+            <td>10:01</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>10:08</td>
+            <td>11:05</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>11:12</td>
+            <td>12:11</td>
+          </tr>
+          <tr>
+            <td>Lunch</td>
+            <td>12:11</td>
+            <td>12:52</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>12:59</td>
+            <td>01:56</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>02:03</td>
+            <td>03:00</td>
+          </tr>
+        </table>
+        <table class='schedule' id='schedule-wed' hidden>
+          <tr>
+            <td>1</td>
+            <td>09:00</td>
+            <td>09:47</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>09:54</td>
+            <td>10:41</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>10:48</td>
+            <td>11:35</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>11:42</td>
+            <td>12:31</td>
+          </tr>
+          <tr>
+            <td>Lunch</td>
+            <td>12:31</td>
+            <td>01:12</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>01:19</td>
+            <td>01:06</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>02:13</td>
+            <td>03:00</td>
+          </tr>
+        </table>
+        <table class='schedule' id='schedule-mini' hidden>
+          <tr>
+            <td>1</td>
+            <td>08:00</td>
+            <td>08:30</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>08:37</td>
+            <td>09:07</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>09:14</td>
+            <td>09:44</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>09:51</td>
+            <td>010:26</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>010:33</td>
+            <td>011:03</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>011:10</td>
+            <td>011:40</td>
+          </tr>
+        </table>
       </section>
       <section id='bulletin'>
         <h1>Bulletin</h1>
@@ -294,6 +439,8 @@ const doc = document,
         date:doc.getElementById('time'),
         powwowFeed:doc.getElementById('powwow-feed'),
         notepad:doc.getElementById('notepad'),
+        scheduleSelector:doc.getElementById('schedule-select'),
+        schedule:doc.getElementsByClassName('schedule'),
         main:doc.getElementsByTagName('main')[0]
       },
       preferences = {
@@ -305,8 +452,7 @@ function relocate(){
   doc.querySelector(window.location.hash).scrollIntoView({inline:'start'});
 }
 
-relocate;
-window.onresize = relocate;
+window.addEventListener('resize',relocate);
 
 dom.date.innerText = new Date().toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
 
@@ -322,10 +468,18 @@ if(dom.powwowFeed.innerText){
 
 if(window.localStorage.getItem('notepad')){
   dom.notepad.innerText = window.localStorage.getItem('notepad');
+}else{
+  dom.notepad.innerText = 'Write stuff here. Everything is auto-saved locally on your computer.';
 }
 
 dom.notepad.addEventListener('keyup',function(e){
   window.localStorage.setItem('notepad',this.innerText);
+});
+
+dom.scheduleSelector.addEventListener('input',function(e){
+  Array.from(dom.schedule).forEach(function(f){
+    f.hidden = (f !== doc.getElementById('schedule-'+e.target.value));
+  });
 });
 
 setInterval(function(){
@@ -343,7 +497,6 @@ setInterval(function(){
 
 doc.querySelectorAll(`*[href^='#']`).forEach(anchor => {
   anchor.addEventListener('click', function (e) {
-    e.preventDefault();
     this.blur();
     doc.querySelector(this.getAttribute('href')).scrollIntoView({
       inline:'start'
