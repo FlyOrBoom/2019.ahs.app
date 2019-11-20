@@ -444,6 +444,7 @@ a:visited{
     </main>
     <script>
 const doc = document,
+      date = new Date(),
       dom = {
         date:doc.getElementById('time'),
         powwowFeed:doc.getElementById('powwow-feed'),
@@ -463,8 +464,7 @@ function relocate(){
 
 window.addEventListener('resize',relocate);
 
-dom.date.innerText = new Date().toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
-
+dom.date.innerText = date.toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
 
 if(dom.powwowFeed.innerText){
   window.localStorage.setItem('powwowFeed',dom.powwowFeed.innerHTML.slice(0,-134));
@@ -484,6 +484,13 @@ if(window.localStorage.getItem('notepad')){
 dom.notepad.addEventListener('keyup',function(e){
   window.localStorage.setItem('notepad',this.innerText);
 });
+
+if(date.getDay() === 3){
+ doc.getElementById('schedule-select-wed').checked = true;
+  Array.from(dom.schedule).forEach(function(f){
+    f.hidden = (f !== doc.getElementById('schedule-wed'));
+  });
+}
 
 dom.scheduleSelector.addEventListener('input',function(e){
   Array.from(dom.schedule).forEach(function(f){
