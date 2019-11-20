@@ -227,9 +227,14 @@ a:visited{
   header{
     text-align:left;
   }
+  main{
+    height:calc(100% - 4rem);
+  }
+  nav{
+    height:3rem;
+  }
   nav>a{
-    -webkit-mask-image:linear-gradient(270deg,#fff0,#fff 2rem);
-    mask-image:linear-gradient(270deg,#fff0,#fff 2rem);
+    color:transparent;
   }
   #time{
     display:none;
@@ -428,13 +433,13 @@ a:visited{
       <section id='powwow'>
         <h1>Pow Wow</h1>
         <div id='powwow-feed'>
-          <script src='https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js'></script>
+          <script src='https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js' defer></script>
         </div>
         <div>Read more at the <a href='https://theapachepowwow.net'>Apache Pow Wow</a> website.</div>
       </section>
       <section id='twitter'>
         <h1>Twitter</h1>
-        <a class="twitter-timeline" data-dnt="true" data-link-color="#42f" href="https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw">Tweets by ArcadiaASB</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <a class="twitter-timeline" data-dnt="true" data-link-color="#42f" href="https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw">Tweets by ArcadiaASB</a> <script src="https://platform.twitter.com/widgets.js" charset="utf-8" async></script>
       </section>
     </main>
     <script>
