@@ -3,6 +3,7 @@
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#fff",
+  "theme_color": "#f26",
   "description": "The no-bs Arcadia High School app.",
   "icons": [{
     "src": "assets/pwa-192.png",
