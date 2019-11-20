@@ -1,6 +1,5 @@
 {
   "name": "ahs.app",
-  "short_name": "ahs.app",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#fff",
