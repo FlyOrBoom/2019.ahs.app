@@ -113,16 +113,13 @@ section{
   border:solid var(--shade);
   border-width:0 .1rem;
 }
-section:first-child,section:last-child{
+section:first-child{
   flex:0 0 4rem;
 }
 section:first-child{
   border-left:none;
 }
-section:last-child{
-  border-right:none;
-}
-section:nth-child(2),section:nth-last-child(2){
+section:nth-child(2){
   scroll-snap-align:none;
   flex:0 0 calc(50vw - 4rem);
 }
@@ -189,6 +186,10 @@ a:visited{
   margin-left:4%;
   opacity:.75;
 }
+.twitter-timeline{
+  clip-path:inset(4vw 0 0 0);
+  transform:translateY(-4vw);
+}
 @media screen and (max-width:700px){
   html{
     font-size:24px;
@@ -205,11 +206,15 @@ a:visited{
   section{
     flex:0 0 100vw;
   }
-  section:nth-child(2),section:nth-last-child(2){
+  section:nth-child(2){
     flex:0 0 calc(100vw - 4rem);
   }
   .video{
     height:54.25vw;
+  }
+  .twitter-timeline{
+    clip-path:inset(8vw 0 0 0);
+    transform:translateY(-8vw);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -235,7 +240,7 @@ a:visited{
       <a href='#bulletin'>Bulletin</a>
       <a href='#apn'>Apache News</a>
       <a href='#powwow'>PowWow</a>
-      <a href='#social'>Social media</a>
+      <a href='#twitter'>twitter media</a>
       <a href='#preferences'>Preferences</a>
     </nav>
     <header tabindex='0'><span id='time'></span>ahs.app<a href='https://lxing.dev' id='credit'>by xing</a></header>
@@ -254,6 +259,7 @@ a:visited{
         </a>
         <a href='https://powerschool.ausd.net' title='PowerSchool'>Pow</a>
         <a href='https://student.headeriance.com/arcadiahs' title='Naviance'>Na</a>
+        <a href=''>a</a>
       </section>
       <section id='agenda'>
         <h1>Agenda</h1>
@@ -261,7 +267,7 @@ a:visited{
       </section>
       <section id='bulletin'>
         <h1>Bulletin</h1>
-        <iframe class='pdf' src='assets/bulletin.pdf'></iframe>
+        <object class='pdf' data='assets/bulletin.pdf'></object>
       </section>
       <section id='apn'>
         <h1>Apache News</h1>
@@ -274,10 +280,9 @@ a:visited{
         </div>
         <div>Read more at the <a href='https://theapachepowwow.net'>Apache Pow Wow</a> website.</div>
       </section>
-      <section id='social'>
-        <h1>Social media</h1>
-      </section>
-      <section id='preferences'>
+      <section id='twitter'>
+        <h1>Twitter</h1>
+        <a class="twitter-timeline" data-dnt="true" data-link-color="#42f" href="https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw">Tweets by ArcadiaASB</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </section>
     </main>
     <script>
@@ -290,9 +295,12 @@ const doc = document,
       },
       preferences = {
         darkMode:false,
-        arrangement:['agenda','bulletin','apn','powwow','social','preferences']
+        arrangement:['agenda','bulletin','apn','powwow','twitter','preferences']
       };
 
+window.onresize = function(){
+  doc.querySelector(window.location.hash).scrollIntoView({inline:'start'});
+};
 
 dom.date.innerText = new Date().toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
 
@@ -314,8 +322,7 @@ dom.notepad.addEventListener('keyup',function(e){
   window.localStorage.setItem('notepad',this.innerText);
 });
 
-
-dom.main.addEventListener('scroll',function(){
+setInterval(function(){
   Array.from(doc.getElementsByTagName('section')).forEach(function(f){
     if(Math.abs(f.getBoundingClientRect().left)<50){
       if(f.id==='links'){
@@ -325,7 +332,7 @@ dom.main.addEventListener('scroll',function(){
       }
     }
   });
-});
+},1000);
 
 doc.querySelectorAll(`*[href^='#']`).forEach(anchor => {
   anchor.addEventListener('click', function (e) {
@@ -334,7 +341,6 @@ doc.querySelectorAll(`*[href^='#']`).forEach(anchor => {
     doc.querySelector(this.getAttribute('href')).scrollIntoView({
       inline:'start'
     });
-    window.history.pushState({},'ahs.app',anchor.getAttribute('href'));
   });
 });
 
