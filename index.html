@@ -20,7 +20,7 @@ if('serviceWorker' in navigator) {
   box-sizing:border-box;
 }
 html{
-  font-size:22px;
+  font-size:20px;
 }
 :root{
   --background:#fff;
@@ -68,6 +68,7 @@ nav{
 nav>a{
   flex:1 1 1rem;
   text-align:center;
+  white-space:nowrap;
 }
 nav>a:hover,nav>a:focus{
   background:var(--primary);
@@ -177,6 +178,10 @@ h1{
   text-align:center;
   color:var(--link);
   cursor:pointer;
+  white-space:nowrap;
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(270deg,#fff0,#fff 1rem);
+  mask-image:linear-gradient(270deg,#fff0,#fff 1rem);
 }
 #schedule-select>input{
   display:none;
@@ -185,6 +190,8 @@ h1{
   color:var(--background);
   background:var(--primary);
   font-weight:500;
+  -webkit-mask-image:none;
+  mask-image:none;
 }
 .pdf{
   height:calc(100% - 3.5rem);
@@ -217,15 +224,12 @@ a:visited{
   transform:translateY(-4vw);
 }
 @media screen and (max-width:700px){
-  html{
-    font-size:24px;
-  }
   header{
     text-align:left;
   }
   nav>a{
-    -webkit-mask-image:linear-gradient(90deg,#fff 50%,#fff8);
-    mask-image:linear-gradient(90deg,#fff 50%,#fff8);
+    -webkit-mask-image:linear-gradient(270deg,#fff0,#fff 2rem);
+    mask-image:linear-gradient(270deg,#fff0,#fff 2rem);
   }
   #time{
     display:none;
@@ -498,9 +502,7 @@ setInterval(function(){
 doc.querySelectorAll(`*[href^='#']`).forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     this.blur();
-    doc.querySelector(this.getAttribute('href')).scrollIntoView({
-      inline:'start'
-    });
+    doc.querySelector(this.getAttribute('href')).scrollIntoView({inline:'start'});
   });
 });
 
