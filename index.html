@@ -23,11 +23,12 @@ html{
   font-size:22px;
 }
 :root{
-  --primary:#f26;
-  --secondary:#62f;
-  --shade:#eee;
   --background:#fff;
-  --main:#222;
+  --shade:#eee;
+  --primary:#f26;
+  --link:#62f;
+  --text:#444;
+  --heading:#222;
 }
 html,body{
   margin:0;
@@ -40,7 +41,7 @@ body{
   background-size:100% 100%;
   font-family:'IBM Plex Sans',monospace;
   font-weight:400;
-  color:var(--main);
+  color:var(--text);
 }
 header{
   width:100%;
@@ -129,12 +130,13 @@ section>*{
 h1{
   margin:0 0 1rem 0;
   font-weight:500;
+  color:var(--heading);
 }
 #links{
   padding-top:.5rem;
 }
 #links>*{
-  fill:#fff;
+  fill:var(--background);
   display:block;
   width:3.5rem;
   height:3.5rem;
@@ -146,7 +148,7 @@ h1{
   border:.5rem solid var(--background);
 }
 #links>*:hover,#links>*:focus{
-  background-color:var(--secondary);
+  background-color:var(--link);
 }
 #notepad{
   min-height:10rem;
@@ -167,14 +169,14 @@ h1{
 }
 a{
   text-decoration:none;
-  color:var(--secondary);
+  color:var(--link);
 }
 a:hover,a:focus{
   outline:none;
   color:var(--primary);
 }
 a:visited{
-  color:var(--secondary);
+  color:var(--link);
   filter:brightness(.8);
 }
 .feed-item-title{
@@ -184,7 +186,6 @@ a:visited{
 .feed-item-desc{
   width:92%;
   margin-left:4%;
-  opacity:.75;
 }
 .twitter-timeline{
   clip-path:inset(4vw 0 0 0);
@@ -215,6 +216,7 @@ a:visited{
   .twitter-timeline{
     clip-path:inset(8vw 0 0 0);
     transform:translateY(-8vw);
+    color:var(--text);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -225,12 +227,14 @@ a:visited{
 @media (prefers-color-scheme: dark) {
   :root{
     --primary:#f37;
-    --secondary:#86f;
+    --link:#86f;
     --background:#111;
     --shade:#000;
-    --main:#fff;
+    --text:#ddd;
+    --heading:#fff;
   }
 }
+
     </style>
   </head>
   <body>
@@ -239,9 +243,8 @@ a:visited{
       <a href='#agenda'>Agenda</a>
       <a href='#bulletin'>Bulletin</a>
       <a href='#apn'>Apache News</a>
-      <a href='#powwow'>PowWow</a>
-      <a href='#twitter'>twitter media</a>
-      <a href='#preferences'>Preferences</a>
+      <a href='#powwow'>Pow Wow</a>
+      <a href='#twitter'>Twitter</a>
     </nav>
     <header tabindex='0'><span id='time'></span>ahs.app<a href='https://lxing.dev' id='credit'>by xing</a></header>
     <main>
@@ -295,12 +298,15 @@ const doc = document,
       },
       preferences = {
         darkMode:false,
-        arrangement:['agenda','bulletin','apn','powwow','twitter','preferences']
+        arrangement:['agenda','bulletin','apn','powwow','twitter']
       };
 
-window.onresize = function(){
+function relocate(){
   doc.querySelector(window.location.hash).scrollIntoView({inline:'start'});
-};
+}
+
+relocate;
+window.onresize = relocate;
 
 dom.date.innerText = new Date().toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
 
@@ -323,13 +329,14 @@ dom.notepad.addEventListener('keyup',function(e){
 });
 
 setInterval(function(){
-  Array.from(doc.getElementsByTagName('section')).forEach(function(f){
-    if(Math.abs(f.getBoundingClientRect().left)<50){
+  Array.from(doc.getElementsByTagName('section')).some(function(f){
+    if(f.getBoundingClientRect().left === 0){
       if(f.id==='links'){
         window.history.pushState({},'ahs.app',' ');
       }else{
         window.history.pushState({},'ahs.app','#'+f.id);
       }
+      return true;
     }
   });
 },1000);
