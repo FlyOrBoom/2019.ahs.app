@@ -1,0 +1,13 @@
+{
+  "name": "ahs.app",
+  "short_name": "ahs.app",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f26",
+  "description": "The no-bs Arcadia High School app.",
+  "icons": [{
+    "src": "assets/favi.png",
+    "sizes": "256x256",
+    "type": "image/png"
+  }]
+}
