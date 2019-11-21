@@ -67,7 +67,6 @@ nav{
   width:100vw;
   height:1.25rem;
   position:fixed;
-  z-index:100;
   background:var(--shade);
   display:flex;
 }
@@ -75,6 +74,21 @@ nav>a{
   flex:1 0 1rem;
   text-align:center;
   z-index:100;
+  position:relative;
+  pointer-events:none;
+}
+nav>a:first-of-type{
+  pointer-events:auto;
+}
+nav>a::after{
+  content:'';
+  position:absolute;
+  top:0;
+  display:block;
+  width:100%;
+  transform:translateX(50%);
+  height:100%;
+  pointer-events:auto;
 }
 nav:hover>a:not(:hover){
   background:none;
@@ -94,8 +108,8 @@ main{
   overflow-x:scroll;
   overflow-y:hidden;
   width:100vw;
-  top:1rem;
-  height:calc(100% - 1rem);
+  bottom:0;
+  height:calc(100% - 1.25rem);
   display:flex;
   scroll-behavior:smooth;
 }
@@ -229,7 +243,7 @@ a:visited{
   clip-path:inset(4vw 0 0 0);
   transform:translateY(-4vw);
 }
-@media screen and (max-width:700px){
+@media screen and (pointer:coarse){
   footer{
     top:.25rem;
     height:2rem;
@@ -241,7 +255,7 @@ a:visited{
     padding-top:3rem;
   }
   main{
-    top:0;
+    bottom:3rem;
     height:calc(100% - 3rem);
   }
   nav{
@@ -253,9 +267,12 @@ a:visited{
     padding:.5rem;
     line-height:1;
   }
-  nav>a:hover+a,nav>a:focus+a,nav:not(:hover)>a.shown+a{
+  nav>a:hover+a,nav>a:focus+a,nav>a.shown+a:not(:hover){
     background:none !important;
+    color:var(--link) !important;
   }
+}
+@media screen and (max-width:700px){
   section{
     flex:0 0 100vw;
   }
@@ -470,12 +487,23 @@ const doc = document,
         notepad:doc.getElementById('notepad'),
         scheduleSelector:doc.getElementById('schedule-select'),
         schedule:doc.getElementsByClassName('schedule'),
-        main:doc.getElementsByTagName('main')[0]
+        main:doc.getElementsByTagName('main')[0],
+        sections:Array.from(doc.getElementsByTagName('section')),
       },
       preferences = {
         darkMode:false,
         arrangement:['agenda','bulletin','apn','powwow','twitter']
       }
+
+dom.sectionsReverse = dom.sections.reverse();
+
+function debounce (fn, wait = 1) {
+  let timeout
+  return function (...args) {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => fn.call(this, ...args), wait)
+  }
+}
 
 function relocate(){
   doc.querySelector(window.location.hash).scrollIntoView({inline:'start'})
@@ -517,21 +545,31 @@ dom.scheduleSelector.addEventListener('input',function(e){
   })
 })
 
-setInterval(function(){
-  Array.from(doc.getElementsByTagName('section')).some(function(f){
-    if(f.getBoundingClientRect().left === 0){
+function updateNavbar(array){
+  array.some(function(f){
+    if(Math.abs(f.getBoundingClientRect().left) < (window.innerWidth/2)){
       clearNav();
       if(f.id==='links'){
         window.history.pushState({},'ahs.app',' ')
-        doc.querySelectorAll(`a[href^='#agenda'`)[0].classList.add('shown');
+        doc.querySelectorAll(`a[href^='#links'`)[0].classList.add('shown')
       }else{
         window.history.pushState({},'ahs.app','#'+f.id)
-        doc.querySelectorAll(`a[href^='#`+f.id+`'`)[0].classList.add('shown');
+        doc.querySelectorAll(`a[href^='#`+f.id+`'`)[0].classList.add('shown')
       }
       return true
     }
   })
-},500)
+}
+
+dom.main.lastScrollLeft = 0;
+dom.main.addEventListener('scroll',debounce(function(){
+  if(dom.main.scrollLeft - dom.main.lastScrollLeft > 0){
+    updateNavbar(dom.sections)
+  }else{
+    updateNavbar(dom.sectionsReverse)
+  }
+  dom.main.lastScrollLeft = dom.main.scrollLeft;
+},30))
 
 setInterval(function(){
   Array.from(dom.schedule[1].children).reverse.forEach(function(e){
