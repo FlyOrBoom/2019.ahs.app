@@ -8,16 +8,20 @@
     <meta name='description' content='The no-bs Arcadia High School app'>
     <meta name='keywords' content='arcadia high school,ahs'>
     <meta name='author' content='Xing Liu'>
-  	<link rel="manifest" href="pwa.webmanifest">
+  	<link rel='manifest' href='pwa.webmanifest'>
   	<script>
 if('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-};
+  navigator.serviceWorker.register('sw.js')
+}
   	</script>
     <style>
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500&display=swap');
 *{
   box-sizing:border-box;
+}
+::selection{
+  color:var(--background);
+  background:var(--primary);
 }
 html{
   font-size:20px;
@@ -43,21 +47,23 @@ body{
   font-weight:400;
   color:var(--text);
 }
-header{
+footer{
   width:100%;
-  height:1.25rem;
-  top:-.25rem;
-  background:var(--primary);
-  color:var(--background);
+  bottom:0;
+  left:0;
+  color:var(--primary);
   text-align:center;
-  position:fixed;
-  z-index:100;
+  position:absolute;
+  cursor:default;
 }
-header,nav{
+footer:focus{
+  outline:none;
+}
+footer,nav{
   font-weight:500;
 }
 nav{
-  bottom:0;
+  top:0;
   width:100vw;
   height:1.25rem;
   position:fixed;
@@ -66,30 +72,21 @@ nav{
   display:flex;
 }
 nav>a{
-  flex:1 1 1rem;
+  flex:1 0 1rem;
   text-align:center;
-  white-space:nowrap;
+  z-index:100;
 }
-nav>a:hover,nav>a:focus{
+nav:hover>a:not(:hover){
+  background:none;
+  color:var(--link);
+}
+nav>a:hover,nav>a:hover+a:not(:hover),nav>a:focus,nav>a.shown,nav>a.shown+a{
   background:var(--primary);
-  color:var(--background) !important;
+  color:var(--background);
 }
 #time{
-  position:absolute;
-  left:0;
   text-transform:lowercase;
   font-weight:400;
-}
-#credit{
-  text-decoration:none;
-  color:var(--background);
-  position:absolute;
-  right:0;
-  font-weight:400;
-  opacity:.8;
-}
-#credit:hover{
-  opacity:1;
 }
 main{
   position:fixed;
@@ -98,7 +95,7 @@ main{
   overflow-y:hidden;
   width:100vw;
   top:1rem;
-  height:calc(100% - 2.25rem);
+  height:calc(100% - 1rem);
   display:flex;
   scroll-behavior:smooth;
 }
@@ -134,22 +131,24 @@ h1{
   color:var(--heading);
 }
 #links{
-  padding-top:.5rem;
+  padding-top:.25rem;
 }
-#links>*{
-  fill:var(--background);
+#links>a{
+  fill:var(--primary);
+  stroke:var(--primary);
+  stroke-width:0;
+  color:var(--primary);
   display:block;
-  width:3.5rem;
-  height:3.5rem;
-  margin:0 0 0 -.75rem;
-  border-radius:50%;
-  background-color:var(--primary);
-  color:var(--background);
+  width:3rem;
+  height:3rem;
+  margin:.5rem -.5rem;
   padding:.25rem;
-  border:.5rem solid var(--background);
 }
-#links>*:hover,#links>*:focus{
-  background-color:var(--link);
+#links>a:hover,#links>a:focus{
+  background:var(--shade);
+  fill:var(--link);
+  stroke:var(--link);
+  color:var(--link);
 }
 #notepad{
   min-height:10rem;
@@ -167,11 +166,17 @@ h1{
   table-layout:fixed;
   text-align:center;
 }
+tr.highlighted{
+  color:var(--primary);
+}
 #schedule-select{
   all:unset;
   display:inline-flex;
   width:100%;
   justify-content:space-around;
+}
+#schedule-select:focus-within{
+  background:#000;
 }
 #schedule-select>label{
   flex:1 0 1rem;
@@ -180,13 +185,14 @@ h1{
   cursor:pointer;
   white-space:nowrap;
   overflow:hidden;
-  -webkit-mask-image:linear-gradient(270deg,#fff0,#fff 1rem);
-  mask-image:linear-gradient(270deg,#fff0,#fff 1rem);
 }
 #schedule-select>input{
   display:none;
 }
-#schedule-select>input[type="radio"]:checked+label{
+#schedule-select>label:hover,#schedule-select>input:focus+label{
+  background:var(--shade);
+}
+#schedule-select>input:checked+label{
   color:var(--background);
   background:var(--primary);
   font-weight:500;
@@ -224,20 +230,31 @@ a:visited{
   transform:translateY(-4vw);
 }
 @media screen and (max-width:700px){
-  header{
-    text-align:left;
+  footer{
+    top:.25rem;
+    height:2rem;
+  }
+  footer>div:last-of-type{
+    visibility:hidden;
+  }
+  #links{
+    padding-top:3rem;
   }
   main{
-    height:calc(100% - 4rem);
+    top:0;
+    height:calc(100% - 3rem);
   }
   nav{
+    top:auto;
     height:3rem;
+    bottom:0;
   }
   nav>a{
-    color:transparent;
+    padding:.5rem;
+    line-height:1;
   }
-  #time{
-    display:none;
+  nav>a:hover+a,nav>a:focus+a,nav:not(:hover)>a.shown+a{
+    background:none !important;
   }
   section{
     flex:0 0 100vw;
@@ -263,7 +280,7 @@ a:visited{
   :root{
     --primary:#f37;
     --link:#86f;
-    --background:#111;
+    --background:#141414;
     --shade:#000;
     --text:#ddd;
     --heading:#fff;
@@ -274,30 +291,32 @@ a:visited{
   </head>
   <body>
     <nav>
-      <a href='#links'>Quick links</a>
-      <a href='#agenda'>Agenda</a>
+      <a href='#agenda' class='shown'>Agenda</a>
       <a href='#bulletin'>Bulletin</a>
       <a href='#apn'>Apache News</a>
       <a href='#powwow'>Pow Wow</a>
       <a href='#twitter'>Twitter</a>
     </nav>
-    <header tabindex='-1'><span id='time'></span>ahs.app<a href='https://lxing.dev' id='credit' tabindex='-1'>by xing</a></header>
     <main>
       <section id='links'>
         <a target='_blank' href='https://classroom.google.com' title='Google Classroom'>
-<svg viewBox='-5 -5 60 60' version='1.1'>
-<path d='M 6 5 C 3.792969 5 2 6.792969 2 9 L 2 41 C 2 43.207031 3.792969 45 6 45 L 44 45 C 46.207031 45 48 43.207031 48 41 L 48 9 C 48 6.792969 46.207031 5 44 5 Z M 7 9 L 43 9 C 43.554688 9 44 9.449219 44 10 L 44 40 C 44 40.554688 43.554688 41 43 41 L 7 41 C 6.449219 41 6 40.554688 6 40 L 6 10 C 6 9.449219 6.449219 9 7 9 Z M 8 11 L 8 39 L 29 39 L 29 37 L 38 37 L 38 39 L 42 39 L 42 11 Z M 25 18 C 26.65625 18 28 19.34375 28 21 C 28 22.65625 26.65625 24 25 24 C 23.34375 24 22 22.65625 22 21 C 22 19.34375 23.34375 18 25 18 Z M 17 22 C 18.105469 22 19 22.894531 19 24 C 19 25.105469 18.105469 26 17 26 C 15.894531 26 15 25.105469 15 24 C 15 22.894531 15.894531 22 17 22 Z M 33 22 C 34.105469 22 35 22.894531 35 24 C 35 25.105469 34.105469 26 33 26 C 31.894531 26 31 25.105469 31 24 C 31 22.894531 31.894531 22 33 22 Z M 25 27 C 27.125 27 28.941406 27.890625 30 28.5625 L 30 32 L 20 32 L 20 28.5625 C 21.058594 27.890625 22.875 27 25 27 Z M 17 28.65625 C 17.347656 28.65625 17.679688 28.71875 18 28.78125 L 18 32 L 13 32 L 13 30.1875 C 13 30.1875 14.742188 28.65625 17 28.65625 Z M 33 28.65625 C 35.257812 28.65625 37 30.1875 37 30.1875 L 37 32 L 32 32 L 32 28.78125 C 32.320312 28.71875 32.652344 28.65625 33 28.65625 Z M 33 28.65625 '/>
-</svg>
+<svg viewBox='-5 -5 60 60'><path d='M 6 5 C 3.792969 5 2 6.792969 2 9 L 2 41 C 2 43.207031 3.792969 45 6 45 L 44 45 C 46.207031 45 48 43.207031 48 41 L 48 9 C 48 6.792969 46.207031 5 44 5 Z M 7 9 L 43 9 C 43.554688 9 44 9.449219 44 10 L 44 40 C 44 40.554688 43.554688 41 43 41 L 7 41 C 6.449219 41 6 40.554688 6 40 L 6 10 C 6 9.449219 6.449219 9 7 9 Z M 8 11 L 8 39 L 29 39 L 29 37 L 38 37 L 38 39 L 42 39 L 42 11 Z M 25 18 C 26.65625 18 28 19.34375 28 21 C 28 22.65625 26.65625 24 25 24 C 23.34375 24 22 22.65625 22 21 C 22 19.34375 23.34375 18 25 18 Z M 17 22 C 18.105469 22 19 22.894531 19 24 C 19 25.105469 18.105469 26 17 26 C 15.894531 26 15 25.105469 15 24 C 15 22.894531 15.894531 22 17 22 Z M 33 22 C 34.105469 22 35 22.894531 35 24 C 35 25.105469 34.105469 26 33 26 C 31.894531 26 31 25.105469 31 24 C 31 22.894531 31.894531 22 33 22 Z M 25 27 C 27.125 27 28.941406 27.890625 30 28.5625 L 30 32 L 20 32 L 20 28.5625 C 21.058594 27.890625 22.875 27 25 27 Z M 17 28.65625 C 17.347656 28.65625 17.679688 28.71875 18 28.78125 L 18 32 L 13 32 L 13 30.1875 C 13 30.1875 14.742188 28.65625 17 28.65625 Z M 33 28.65625 C 35.257812 28.65625 37 30.1875 37 30.1875 L 37 32 L 32 32 L 32 28.78125 C 32.320312 28.71875 32.652344 28.65625 33 28.65625 Z M 33 28.65625 '/></svg>
         </a>
         <a target='_blank' href='https://drive.google.com' title='Google Drive'>
 <svg viewBox='0 1 32 32'><path d='M 11.4375 5 L 11.15625 5.46875 L 3.15625 18.46875 L 2.84375 18.96875 L 3.125 19.5 L 7.125 26.5 L 7.40625 27 L 24.59375 27 L 24.875 26.5 L 28.875 19.5 L 29.15625 18.96875 L 28.84375 18.46875 L 20.84375 5.46875 L 20.5625 5 Z M 13.78125 7 L 19.4375 7 L 26.21875 18 L 20.5625 18 Z M 12 7.90625 L 14.96875 12.75 L 8.03125 24.03125 L 5.15625 19 Z M 16.15625 14.65625 L 18.21875 18 L 14.09375 18 Z M 12.875 20 L 26.28125 20 L 23.40625 25 L 9.78125 25 Z'/></svg>
         </a>
         <a target='_blank' href='https://mail.google.com' title='Gmail'>
-<svg viewBox="-5 -4 60 60"><path d="M 5.5 7 C 3.019531 7 1 9.019531 1 11.5 L 1 11.925781 L 25 29 L 49 11.925781 L 49 11.5 C 49 9.019531 46.980469 7 44.5 7 Z M 6.351563 9 L 43.644531 9 L 25 22 Z M 1 14.027344 L 1 38.5 C 1 40.980469 3.019531 43 5.5 43 L 44.5 43 C 46.980469 43 49 40.980469 49 38.5 L 49 14.027344 L 43 18.296875 L 43 41 L 7 41 L 7 18.296875 Z"/></svg>
+<svg viewBox='-5 -4 60 60'><path d='M 5.5 7 C 3.019531 7 1 9.019531 1 11.5 L 1 11.925781 L 25 29 L 49 11.925781 L 49 11.5 C 49 9.019531 46.980469 7 44.5 7 Z M 6.351563 9 L 43.644531 9 L 25 22 Z M 1 14.027344 L 1 38.5 C 1 40.980469 3.019531 43 5.5 43 L 44.5 43 C 46.980469 43 49 40.980469 49 38.5 L 49 14.027344 L 43 18.296875 L 43 41 L 7 41 L 7 18.296875 Z'/></svg>
         </a>
-        <a target='_blank' href='https://powerschool.ausd.net' title='PowerSchool'>Pow</a>
-        <a target='_blank' href='https://student.headeriance.com/arcadiahs' title='Naviance'>Na</a>
-        <a href=''>a</a>
+        <a target='_blank' href='https://powerschool.ausd.net' title='PowerSchool'>
+<svg viewBox='-9 -3 38 38' stroke-width='2' fill='none'><path d='M1 32V1H4V31H7V1H10A10 10 0 0 1 10 22V19A6 6 0 0 0 10 4V7A2 2 0 0 1 10 16H9'/></svg>
+        </a>
+        <!--<a target='_blank' href='https://student.naviance.com/arcadiahs' title='Naviance'></a>-->
+
+        <footer tabindex='-1'>
+          <div id='time'></div>
+          <div title='by xing'>ahs.app</div>
+        </footer>
       </section>
       <section id='agenda'>
         <h1>Agenda</h1>
@@ -439,7 +458,7 @@ a:visited{
       </section>
       <section id='twitter'>
         <h1>Twitter</h1>
-        <a class="twitter-timeline" data-dnt="true" data-link-color="#42f" href="https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw">Tweets by ArcadiaASB</a> <script src="https://platform.twitter.com/widgets.js" charset="utf-8" async></script>
+        <a class='twitter-timeline' data-dnt='true' data-link-color='#42f' href='https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw'>Tweets by ArcadiaASB</a> <script src='https://platform.twitter.com/widgets.js' charset='utf-8' async></script>
       </section>
     </main>
     <script>
@@ -456,67 +475,82 @@ const doc = document,
       preferences = {
         darkMode:false,
         arrangement:['agenda','bulletin','apn','powwow','twitter']
-      };
+      }
 
 function relocate(){
-  doc.querySelector(window.location.hash).scrollIntoView({inline:'start'});
+  doc.querySelector(window.location.hash).scrollIntoView({inline:'start'})
 }
 
-window.addEventListener('resize',relocate);
+window.addEventListener('resize',relocate)
 
-dom.date.innerText = date.toLocaleDateString('en-US', {hour12: true, month:'numeric', day:'numeric', weekday:'long'});
+dom.date.innerHTML = date.toLocaleDateString('en-US', {month:'numeric', day:'numeric', weekday:'short'}).replace(',','<br/>')
 
 if(dom.powwowFeed.innerText){
-  window.localStorage.setItem('powwowFeed',dom.powwowFeed.innerHTML.slice(0,-134));
+  window.localStorage.setItem('powwowFeed',dom.powwowFeed.innerHTML.slice(0,-134))
 }else if(window.localStorage.getItem('powwowFeed')){
-  dom.powwowFeed.innerHTML = window.localStorage.getItem('powwowFeed');
+  dom.powwowFeed.innerHTML = window.localStorage.getItem('powwowFeed')
 }else{
-  dom.powwowFeed.innerText = 'Cannot load feed.';
+  dom.powwowFeed.innerText = 'Cannot load feed.'
 }
 
 
 if(window.localStorage.getItem('notepad')){
-  dom.notepad.innerText = window.localStorage.getItem('notepad');
+  dom.notepad.innerText = window.localStorage.getItem('notepad')
 }else{
-  dom.notepad.innerText = 'Write stuff here. Everything is auto-saved locally on your computer.';
+  dom.notepad.innerText = 'Write stuff here. Everything is auto-saved locally on your computer.'
 }
 
 dom.notepad.addEventListener('keyup',function(e){
-  window.localStorage.setItem('notepad',this.innerText);
+  window.localStorage.setItem('notepad',this.innerText)
 });
 
 if(date.getDay() === 3){
- doc.getElementById('schedule-select-wed').checked = true;
+  doc.getElementById('schedule-select-wed').checked = true;
   Array.from(dom.schedule).forEach(function(f){
-    f.hidden = (f !== doc.getElementById('schedule-wed'));
-  });
+    f.hidden = (f !== doc.getElementById('schedule-wed'))
+  })
 }
 
 dom.scheduleSelector.addEventListener('input',function(e){
   Array.from(dom.schedule).forEach(function(f){
-    f.hidden = (f !== doc.getElementById('schedule-'+e.target.value));
-  });
-});
+    f.hidden = (f !== doc.getElementById('schedule-'+e.target.value))
+  })
+})
 
 setInterval(function(){
   Array.from(doc.getElementsByTagName('section')).some(function(f){
     if(f.getBoundingClientRect().left === 0){
+      clearNav();
       if(f.id==='links'){
-        window.history.pushState({},'ahs.app',' ');
+        window.history.pushState({},'ahs.app',' ')
+        doc.querySelectorAll(`a[href^='#agenda'`)[0].classList.add('shown');
       }else{
-        window.history.pushState({},'ahs.app','#'+f.id);
+        window.history.pushState({},'ahs.app','#'+f.id)
+        doc.querySelectorAll(`a[href^='#`+f.id+`'`)[0].classList.add('shown');
       }
-      return true;
+      return true
     }
-  });
-},1000);
+  })
+},500)
 
-doc.querySelectorAll(`*[href^='#']`).forEach(anchor => {
+setInterval(function(){
+  Array.from(dom.schedule[1].children).reverse.forEach(function(e){
+    alert(e.children[1].innerText);
+  })
+},2000)
+
+doc.querySelectorAll(`a[href^='#']`).forEach(anchor => {
   anchor.addEventListener('click', function (e) {
-    this.blur();
-    doc.querySelector(this.getAttribute('href')).scrollIntoView({inline:'start'});
-  });
-});
+    e.preventDefault();
+    clearNav();
+    anchor.classList.add('shown');
+    doc.querySelector(this.getAttribute('href')).scrollIntoView({inline:'start'})
+  })
+})
+
+function clearNav(){
+  Array.from(doc.getElementsByClassName('shown')).forEach(function(f){f.classList.remove('shown')})
+}
 
     </script>
   </body>
