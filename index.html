@@ -24,6 +24,12 @@ if('serviceWorker' in navigator) {
 *{
   box-sizing:border-box;
 }
+*{
+  border:0;
+}
+*:focus{
+  outline:none;
+}
 ::selection{
   color:var(--background);
   background:var(--primary);
@@ -61,11 +67,6 @@ header{
   font-size:.75rem;
   font-weight:500;
 }
-header:focus{
-  outline:none;
-}
-header{
-}
 main{
   scroll-snap-type:x mandatory;
   scroll-behavior:smooth;
@@ -99,7 +100,7 @@ section>*{
   margin-bottom:1rem;
 }
 h1{
-  margin-top:-.25rem;
+  margin:-.25rem 0 .4rem 0;
   font-weight:500;
   color:var(--heading);
 }
@@ -108,7 +109,6 @@ h1{
 }
 #links>a,#links>button{
   background:none;
-  border:0;
   fill:var(--primary);
   stroke:var(--primary);
   stroke-width:0;
@@ -124,7 +124,6 @@ h1{
 }
 
 #links>a:hover,#links>a:focus,#links>button:hover,#links>button:focus{
-  outline:none;
   background:var(--shade);
   fill:var(--link);
   stroke:var(--link);
@@ -158,12 +157,11 @@ h1{
   padding:.2rem;
   margin-bottom:1rem;
 }
-#notepad:focus{
-  outline:none;
-  border-width:.1rem;
+#notepad:focus,#contact-wrapper:focus-within{
+  outline:solid var(--shade) .5rem;
 }
 
-.video,.pdf,#notepad,.schedule{
+.video,.pdf,#notepad,.schedule,#contact-filter,#contact-list{
   border:solid .2rem var(--primary);
 }
 .schedule{
@@ -178,9 +176,6 @@ tr.highlighted{
   display:inline-flex;
   width:100%;
   justify-content:space-around;
-}
-#schedule-select:focus-within{
-  background:#000;
 }
 #schedule-select>label{
   flex:1 0 1rem;
@@ -200,8 +195,6 @@ tr.highlighted{
   color:var(--background);
   background:var(--primary);
   font-weight:500;
-  -webkit-mask-image:none;
-  mask-image:none;
 }
 .pdf{
   height:calc(100% - 3.5rem);
@@ -221,15 +214,45 @@ a:visited{
   color:var(--link);
   filter:brightness(.8);
 }
-#powwow-feed{
+#powwow-feed,#contact-list{
   text-transform:none;
 }
 
+
+#contact-filter{
+  margin-bottom:0;
+}
+#contact-filter>input{
+  width:100%;
+  height:2rem;
+  padding:.5rem;
+  font-family:inherit;
+  font-size:1rem;
+}
+
+#contact-list{
+  font-variation-settings:'wdth' 85;
+  margin-top:-.2rem;
+  width:100%;
+}
+#contact-list>tbody>tr{
+  text-align:center;
+}
+tr:hover{
+  background:var(--shade);
+}
+
 a.website{
-  display:block;
-  width:1rem;
-  height:1rem;
-  background:#000;
+  display:inline-block;
+  width:1.1rem;
+  height:1.1rem;
+  transform:translateY(.15rem);
+  background:var(--link);
+  -webkit-mask-image:url(assets/globe.svg);
+  mask-image:url(assets/globe.svg);
+}
+a.website:hover,a.website:focus{
+  background:var(--primary);
 }
 
 .feed-item-title{
@@ -239,10 +262,6 @@ a.website{
 .feed-item-desc{
   width:92%;
   margin-left:4%;
-}
-.twitter-timeline{
-  clip-path:inset(4vw 0 0 0);
-  transform:translateY(-4vw);
 }
 @media screen and (pointer:coarse){
   #links{
@@ -258,11 +277,6 @@ a.website{
   }
   .video{
     height:54.25vw;
-  }
-  .twitter-timeline{
-    clip-path:inset(8vw 0 0 0);
-    transform:translateY(-8vw);
-    color:var(--text);
   }
 }
 @media screen and (max-width:500px){
@@ -297,7 +311,7 @@ a.website{
     <main>
       <section id='links'>
         <h1 hidden>Quick links</h1>
-        <button id='logo-button' title='install ahs.app'>
+        <button id='logo-button' title='edit sections'>
           <svg viewBox='0 0 32 32' text-anchor='middle'>
             <text y='13.5' x='50%' width='100%'>ahs</text>
             <circle cx='50%' cy='50%' r='1'/>
@@ -343,7 +357,7 @@ a.website{
           <input type='checkbox' name='section-select' id='section-select-twitter'  value='5'>
           <label for='section-select-twitter'>twitter</label>
           <input type='checkbox' name='section-select' id='section-select-instagram'  value='6'>
-          <label for='section-select-instagram'>instagram</label>
+          <!--<label for='section-select-instagram'>instagram</label>-->
         </form>
         <div>an app by <a href='lxing.dev'>xing</a></div>
       </section>
@@ -360,18 +374,22 @@ a.website{
         </form>
         <table class='schedule' id='schedule-normal'>
           <tr>
+            <td>1</td>
             <td>08:00</td>
             <td>08:57</td>
           </tr>
           <tr>
+            <td>2</td>
             <td>09:04</td>
             <td>10:01</td>
           </tr>
           <tr>
+            <td>3</td>
             <td>10:08</td>
             <td>11:05</td>
           </tr>
           <tr>
+            <td>4</td>
             <td>11:12</td>
             <td>12:11</td>
           </tr>
@@ -381,28 +399,34 @@ a.website{
             <td>12:52</td>
           </tr>
           <tr>
+            <td>5</td>
             <td>12:59</td>
             <td>01:56</td>
           </tr>
           <tr>
+            <td>6</td>
             <td>02:03</td>
             <td>03:00</td>
           </tr>
         </table>
         <table class='schedule' id='schedule-wed' hidden>
           <tr>
+            <td>1</td>
             <td>09:00</td>
             <td>09:47</td>
           </tr>
           <tr>
+            <td>2</td>
             <td>09:54</td>
             <td>10:41</td>
           </tr>
           <tr>
+            <td>3</td>
             <td>10:48</td>
             <td>11:35</td>
           </tr>
           <tr>
+            <td>4</td>
             <td>11:42</td>
             <td>12:31</td>
           </tr>
@@ -412,36 +436,44 @@ a.website{
             <td>01:12</td>
           </tr>
           <tr>
+            <td>5</td>
             <td>01:19</td>
             <td>02:06</td>
           </tr>
           <tr>
+            <td>6</td>
             <td>02:13</td>
             <td>03:00</td>
           </tr>
         </table>
         <table class='schedule' id='schedule-mini' hidden>
           <tr>
+            <td>1</td>
             <td>08:00</td>
             <td>08:30</td>
           </tr>
           <tr>
+            <td>2</td>
             <td>08:37</td>
             <td>09:07</td>
           </tr>
           <tr>
+            <td>3</td>
             <td>09:14</td>
             <td>09:44</td>
           </tr>
           <tr>
+            <td>4</td>
             <td>09:51</td>
             <td>10:26</td>
           </tr>
           <tr>
+            <td>5</td>
             <td>10:33</td>
             <td>11:03</td>
           </tr>
           <tr>
+            <td>6</td>
             <td>11:10</td>
             <td>11:40</td>
           </tr>
@@ -464,795 +496,804 @@ a.website{
       </section>
       <section id='contacts'>
         <h1>Contacts</h1>
-        <form id='contact-filter'>
-          <input placeholder='search name or category'>
-        </form>
-        <table id='contact-list'>
-          <tr>
-            <td><strong>Teacher</strong></td>
-            <td><strong>Department</strong></td>
-            <td><strong>Links</strong></td>
-          </tr>
-          <tr>
-            <td>Ms. Jeannie Ackerman</td>
-            <td>Social Science</td>
-            <td><a href="mailto:jackerman@ausd.net">jackerman@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Laird Anderson</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:landerson@ausd.net">landerson@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Ignacio Andrade</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:iandrade@ausd.net">iandrade@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Hiroko Arndt</td>
-            <td>World Language</td>
-            <td><a href="mailto:harndt@ausd.net">harndt@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Valdora Axtell</td>
-            <td>ELD</td>
-            <td><a href="mailto:vaxtell@ausd.net">vaxtell@ausd.net</a>
-          </tr>
-          <tr></tr>
-          <tr>
-            <td>Mr. Jason Barclay</td>
-            <td>Social Science</td>
-            <td>
-              <a href="mailto:jbarclay@ausd.net">jbarclay@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/barclay-hush/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-          </tr>
-          <tr>
-            <td>Mr. Zachary Baroni</td>
-            <td>Science</td>
-            <td>
-              <a href="mailto:zbaroni@ausd.net">zbaroni@ausd.net</a>
-              <a href="mailto:arcapes.weebly.com" target="_blank" rel="noopener noreferrer" class="website"></a>
-          </tr>
-          <tr>
-            <td>Mr. Oliver Beckwith</td>
-            <td>Social Science</td>
-            <td><a href="mailto:obeckwith@ausd.net">obeckwith@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Cynthia Belzer</td>
-            <td>Social Science</td>
-            <td><a href="mailto:cbelzer@ausd.net">cbelzer@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Paola Bisharat</td>
-            <td>English</td>
-            <td><a href="mailto:pbisharat@ausd.net">pbisharat@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Dr. Kyle Blotzer</td>
-            <td>Physical Education</td>
-            <td><a href="mailto:kblotzer@ausd.net">kblotzer@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/blotzer-ahspe/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Carol Bradley</td>
-            <td>Visual Arts</td>
-            <td><a href="https://sites.google.com/s/0B6EkmtuxEAMVY2xpbXpxbEVmeWc/p/0B6EkmtuxEAMVTy03LUpJZnE1REE/edit" target="_blank" rel="noopener noreferrer">cbradley@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/artclassesf-104/home-page" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Heather Brown-Hom</td>
-            <td>Social Science</td>
-            <td><a href="mailto:hbrown@ausd.net">hbrown@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Bill Chapman</td>
-            <td>Careers/Tech</td>
-            <td><a href="mailto:bchapman@ausd.net">bchapman@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/chapman" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Pin Chen</td>
-            <td>Performing Arts</td>
-            <td><a href="mailto:pchen@ausd.net">pchen@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/orchestra" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Janet Chuang</td>
-            <td>Math</td>
-            <td><a href="mailto:ahs.ausd.net" target="_blank" rel="noopener noreferrer">jchuang@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Michael Cockroft</td>
-            <td>Math</td>
-            <td><a href="mailto:mcockroft@ausd.net">mcockroft@ausd.net</a>
-              <a href="https://mcockroft6.wixsite.com/website-1" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Charmaine Cordero</td>
-            <td>English</td>
-            <td><a href="mailto:ccordero@ausd.net">ccordero@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Mylinh Crew</td>
-            <td>Math</td>
-            <td><a href="mailto:mcrew@ausd.net">mcrew@ausd.net</a>
-          </tr>
-          <tr></tr>
-          <tr>
-            <td>Ms. Dorothy Daniel</td>
-            <td>Math</td>
-            <td><a href="mailto:ddaniel@ausd.net">ddaniel@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/apcalcab/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Keith DeLuca</td>
-            <td>Stagecraft</td>
-            <td><a href="mailto:kdeluca@ausd.net" target="_blank" rel="noopener noreferrer">kdeluca@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Ernest Delfin</td>
-            <td>English</td>
-            <td><a href="mailto:edelfin@ausd.net">edelfin@ausd.net</a>
-              <a href="https://misterdelfin.weebly.com" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mrs. Cathy DeSurra</td>
-            <td>English</td>
-            <td><a href="mailto:cdesurra@ausd.net">cdesurra@ausd.net</a>
-              <a href="https://sites.google.com/a/ausd.net/cdesurra" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Brian Devor</td>
-            <td>Science</td>
-            <td><a href="mailto:bdevor@ausd.net">bdevor@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/ahs-mr-devor" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Jon Dimalante</td>
-            <td>PE</td>
-            <td><a href="mailto:jdimalante@ausd.net">jdimalante@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Kathryn Doring</td>
-            <td>English</td>
-            <td><a href="mailto:kdoring@ausd.net">kdoring@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Karen DuBerke</td>
-            <td>World Language</td>
-            <td><a href="mailto:kduberke@ausd.net">kduberke@ausd.net</a>
-          </tr>
-          <tr></tr>
-          <tr>
-            <td>Mr. Mauricio Eguez</td>
-            <td>Science</td>
-            <td><a href="mailto:meguez@ausd.net">meguez@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Brent Eldridge</td>
-            <td>English</td>
-            <td><a href="mailto:beldridge@ausd.net">beldridge@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/arcadia-hs-avid/ahs-avid" target="_blank" rel="noopener" class="website" title="AVID"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Tamra Erickson</td>
-            <td>Math</td>
-            <td><a href="mailto:terickson@ausd.net">terickson@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Michael Feraco-Eberle</td>
-            <td>English</td>
-            <td><a href="mailto:mferaco-eberle@ausd.net">mferaco-eberle@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Tom Forbes</td>
-            <td>Performing Arts</td>
-            <td><a href="mailto:tforbes@ausd.net">tforbes@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Kevin Fox</td>
-            <td>Social Science</td>
-            <td><a href="mailto:kfox@ausd.net">kfox@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Ashley Frandsen</td>
-            <td>PE</td>
-            <td><a href="mailto:afrandsen@ausd.net">afrandsen@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Jason Franz</td>
-            <td>PE</td>
-            <td><a href="mailto:jfranz@ausd.net">jfranz@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Mike Freese</td>
-            <td>Social Science</td>
-            <td><a href="mailto:mfreese@ausd.net">mfreese@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Marisa Gaeta-Catano</td>
-            <td>World Language</td>
-            <td><a href="mailto:mgaeta-catano@ausd.net">mgaeta-catano@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Laura Galloway</td>
-            <td>SocialScience</td>
-            <td><a href="mailto:lgalloway@ausd.net">lgalloway@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Jason Ganley</td>
-            <td>Visual Arts </td>
-            <td><a href="mailto:jganley@ausd.net">jganley@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Breanne Genite</td>
-            <td>Performing Arts</td>
-            <td>
-              <a href="mailto:bgenite@ausd.net">bgenite@ausd.net</a>
-              <a href="mailto:www.ahsorchesis.com" target="_blank" rel="noopener noreferrer" class="website" title="Orchesis"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mrs. Yumiko Goto</td>
-            <td>Science</td>
-            <td><a href="mailto:ygoto@ausd.net">ygoto@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Paul Green</td>
-            <td>Social Science</td>
-            <td><a href="mailto:pgreen@ausd.net">pgreen@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Robert Greep</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:rgreep@ausd.net">rgreep@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Claudia Grubbs</td>
-            <td>English</td>
-            <td><a href="mailto:cdiaz@ausd.net">cgrubbs@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Melissa Hatheway</td>
-            <td>English</td>
-            <td><a href="mailto:mhatheway@ausd.net">mhatheway@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/ms-hat/home?authuser=0" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Christa Heinrich-Josties</td>
-            <td>Social Science</td>
-            <td><a href="mailto:cheinrichjosties@ausd.net">cheinrichjosties@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Jean Hong</td>
-            <td>Math</td>
-            <td><a href="mailto:jhong@ausd.net">jhong@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Samantha Hong</td>
-            <td>Math</td>
-            <td><a href="mailto:shong@ausd.net">shong@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/mshong/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Ann Hsia</td>
-            <td>World Language</td>
-            <td><a href="mailto:ahsia@ausd.net">ahsia@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Dave Jones</td>
-            <td>Social Science</td>
-            <td><a href="mailto:djones@ausd.net">djones@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Tal Jones</td>
-            <td>Science</td>
-            <td><a href="mailto:tjones@ausd.net">tjones@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Julie Jong</td>
-            <td>World Language</td>
-            <td><a href="mailto:jjong@ausd.net">jjong@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Leslie Klipstein</td>
-            <td>English</td>
-            <td><a href="mailto:lklipstein@ausd.net">lklipstein@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/arcadia-hs-avid/ahs-avid" target="_blank" rel="noopener" class="website" title="AVID"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Nathalie Krikorian</td>
-            <td>World Language</td>
-            <td><a href="mailto:nkrikorian@ausd.net">nkrikorian@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Neda Kuso</td>
-            <td>Science</td>
-            <td><a href="mailto:nkuso@ausd.net">nkuso@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/kuso/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Jennifer Landis</td>
-            <td>English</td>
-            <td><a href="mailto:jlandis@ausd.net">jlandis@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Michael Lamb</td>
-            <td>Visual Arts</td>
-            <td><a href="mailto:mlamb@ausd.net">mlamb@ausd.net</a>
-              <a href="mailto:sites.google.com/ausd.net/mlamb-photo" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Cindy Latham</td>
-            <td>World Language</td>
-            <td><a href="mailto:clatham@ausd.net">clatham@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Megan Leahy</td>
-            <td>Social Science</td>
-            <td><a href="mailto:mleahy@ausd.net">mleahy@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Lesley Lee</td>
-            <td>English</td>
-            <td><a href="mailto:llee@ausd.net">llee@ausd.net</a>
-              <a href="https://sites.google.com/a/ausd.net/mrs-lee-s-class" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Nicholas Lemas</td>
-            <td>PE</td>
-            <td><a href="mailto:nlemas@ausd.net">nlemas@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Jonathan Leung</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:jleung@ausd.net">jleung@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Barry Lisbin</td>
-            <td>Math</td>
-            <td><a href="mailto:blisbin@ausd.net">blisbin@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Cheryl Lopez</td>
-            <td>World Language</td>
-            <td><a href="mailto:clopez@ausd.net">clopez@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Lisa Lucas</td>
-            <td>English</td>
-            <td><a href="mailto:llucas@ausd.net">llucas@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Christine Ma</td>
-            <td>Visual Arts</td>
-            <td><a href="mailto:cma@ausd.net">cma@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Logan Maertens</td>
-            <td>English</td>
-            <td><a href="mailto:lmaertens@ausd.net">lmaertens@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Ivy Martinez</td>
-            <td>World Languages</td>
-            <td><a href="mailto:imartinez@ausd.net">imartinez@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Nils Miller</td>
-            <td>Math</td>
-            <td><a href="mailto:nmiller@ausd.net">nmiller@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/millermath/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Akarin Mittongtare</td>
-            <td>Food Science</td>
-            <td><a href="mailto:amittongtare@ausd.net">amittongtare@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Craig Monden</td>
-            <td>Science</td>
-            <td><a href="mailto:cmonden@ausd.net">cmonden@ausd.net</a>
-              <a href="https://app.schoology.com/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Heather Moore</td>
-            <td>Social Science</td>
-            <td><a href="mailto:hmoore@ausd.net">hmoore@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/hmoore-us-history" target="_blank" rel="noopener noreferrer" class="website" title="US History"></a>
-              <a href="https://sites.google.com/ausd.net/moorewangapush" target="_blank" rel="noopener noreferrer" class="website" title="US History AP"></a>
-              <a href="https://sites.google.com/ausd.net/sdaie-us-history" target="_blank" rel="noopener noreferrer" class="website" title="US History SDAIE"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Ing Mu</td>
-            <td>Visual Arts</td>
-            <td><a href="mailto:imu@ausd.net">imu@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/mmu/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Seth Murphy</td>
-            <td>Performing Arts</td>
-            <td><a href="mailto:smurphy@ausd.net">smurphy@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/bandpercussion/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Cherryl Mynster</td>
-            <td>Science</td>
-            <td><a href="mailto:cmynster@ausd.net">cmynster@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Ray Mynster</td>
-            <td>Math/Athletics</td>
-            <td><a href="mailto:rmynster@ausd.net">rmynster@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Bea Nairi</td>
-            <td>Math</td>
-            <td><a href="mailto:bnairi@ausd.net">bnairi@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Patricia Naughtin</td>
-            <td>English</td>
-            <td><a href="mailto:tnaughtin@ausd.net">tnaughtin@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Robin Neuwirth-Bishop</td>
-            <td>English</td>
-            <td><a href="mailto:rneuwirth-bishop@ausd.net">rneuwirth-bishop@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Ashley Novak</td>
-            <td>English</td>
-            <td><a href="mailto:anovak@ausd.net">anovak@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Frank Nunez</td>
-            <td>CTE</td>
-            <td><a href="mailto:fnunez@ausd.net">fnunez@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. John Panza</td>
-            <td>Social Science</td>
-            <td><a href="mailto:jpanza@ausd.net">jpanza@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Mike Pasqua</td>
-            <td>Social Science</td>
-            <td><a href="mailto:mpasqua@ausd.net">mpasqua@ausd.net</a>
-              <a href="https://sites.google.com/a/ausd.net/mr-pasqua" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Kristeen Pisano</td>
-            <td>Science</td>
-            <td><a href="mailto:kpisano@ausd.net">kpisano@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Ryen Piszyk</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:rpiszyk@ausd.net">rpiszyk@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Andrew Policky</td>
-            <td>Cross Age PE and Athletics</td>
-            <td><a href="mailto:apolicky@ausd.net">apolicky@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Milica Protic</td>
-            <td>Athletics Director</td>
-            <td><a href="mailto:mprotic@ausd.net">mprotic@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Kellie Purcey</td>
-            <td>Social Science</td>
-            <td><a href="mailto:kpurcey@ausd.net">kpurcey@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Brent Reiske</td>
-            <td>Careers/Tech</td>
-            <td><a href="mailto:breiske@ausd.net">breiske@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Guadalupe Rodriguez</td>
-            <td>World Language</td>
-            <td><a href="mailto:grodriguez@ausd.net">grodriguez@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Mo Rolfe</td>
-            <td>Math</td>
-            <td><a href="mailto:mrolfe@ausd.net">mrolfe@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Julia Rosenberg</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:jrosenberg@ausd.net">jrosenberg@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Christopher Saucedo</td>
-            <td>Science</td>
-            <td><a href="mailto:mailto:saucedo.ahs.ausd.net">csaucedo@ausd.net</a>
-              <a href="https://csaucedo.weebly.com" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Chris Schultz</td>
-            <td>English</td>
-            <td><a href="mailto:cschultz@ausd.net">cschultz@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Robin Serr</td>
-            <td>Visual Arts</td>
-            <td><a href="mailto:rserr@ausd.net">rserr@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Jack Sessions</td>
-            <td>CTE</td>
-            <td><a href="mailto:jsessions@ausd.net" target="_blank" rel="noopener noreferrer">jsessions@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Caven Shen</td>
-            <td>Careers/Tech</td>
-            <td><a href="mailto:cshen@ausd.net">cshen@ausd.net</a>
-              <a href="https://mrshen.atwebpages.com" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Kevin Sherrill</td>
-            <td>Performing Arts</td>
-            <td><a href="mailto:ksherrill@ausd.net">ksherrill@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/bandpercussion/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Dave Silah</td>
-            <td>Math</td>
-            <td><a href="mailto:dsilah@ausd.net">dsilah@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Samantha Silverman</td>
-            <td>World Languages</td>
-            <td><a href="mailto:ssilverman@ausd.net">ssilverman@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Nicole Soliven</td>
-            <td>Science</td>
-            <td><a href="mailto:nsoliven@ausd.net">nsoliven@ausd.net</a>
-              <a href="https://sites.google.com/a/ausd.net/sciencewithsoliven20172018" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Ben Smith</td>
-            <td>Math</td>
-            <td><a href="mailto:bensmith@ausd.net">bensmith@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Stefani Spitz</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:esspitz@ausd.net">sspitz@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Maria Stemwell</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:mstemwell@ausd.net">mstemwell@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Jessica Summers</td>
-            <td>World Language</td>
-            <td><a href="mailto:jsummers@ausd.net">jsummers@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Amanda Svetich</td>
-            <td>Performing Arts</td>
-            <td><a href="mailto:asvetich@ausd.net">asvetich@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Al Sylvia</td>
-            <td>English</td>
-            <td><a href="mailto:asylvia@ausd.net">asylvia@ausd.net</a>
-          </tr>
-          <tr></tr>
-          <tr>
-            <td>Mrs. Kristen Tedei</td>
-            <td>Math</td>
-            <td><a href="mailto:ktedei@ausd.net">ktedei@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/tedei/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Liza Tedford</td>
-            <td>Performing Arts</td>
-            <td><a href="mailto:ltedford@ausd.net">ltedford@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Vicky Valenzuela</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:vvalenzuela@ausd.net">vvalenzuela@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Christina Vaughan</td>
-            <td>World Language</td>
-            <td><a href="mailto:cvaughan@ausd.net">cvaughan@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Chris Villalobos</td>
-            <td>English</td>
-            <td><a href="mailto:cvillalobos@ausd.net">cvillalobos@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Peter Vo</td>
-            <td>Science</td>
-            <td><a href="mailto:pvo@ausd.net">pvo@ausd.net</a>
-              <a href="https://mrvobiology.weebly.com" target="_blank" rel="noopener noreferrer" class="website"></a>
-              <a href="https://arcapes.weebly.com" target="_blank" rel="noopener noreferrer" class="website"></a>
-          </tr>
-          <tr>
-            <td>Mr. Steven Volpe</td>
-            <td>Performing Arts</td>
-            <td><a href="mailto:svolpe@ausd.net">svolpe@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Brian Walker</td>
-            <td>Math</td>
-            <td><a href="mailto:bwalker@ausd.net">bwalker@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Gerry Wang</td>
-            <td>Social Science</td>
-            <td><a href="mailto:gwang@ausd.net">gwang@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Sharyn Wang</td>
-            <td>Math</td>
-            <td>
-              <a href="mailto:swang@ausd.net">swang@ausd.net</a>
-              <a href="https://sites.google.com/ausd.net/swang/home" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Sam Williams</td>
-            <td>Science</td>
-            <td><a href="mailto:swilliams@ausd.net">swilliams@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Andrea Winston</td>
-            <td>Special Ed</td>
-            <td><a href="mailto:awinston@ausd.net">awinston@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Matthew Wong</td>
-            <td>Social Science</td>
-            <td><a href="mailto:matthewwong@ausd.net" target="_blank" rel="noopener noreferrer">matthewwong@ausd.net</a>
-              <a href="https://wongedu.weebly.com" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Mr. Matthew Woodin</td>
-            <td>English</td>
-            <td><a href="mailto:mwoodin@ausd.net">mwoodin@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Barbara Young</td>
-            <td>Science</td>
-            <td><a href="mailto:byoung@ausd.net">byoung@ausd.net</a>
-          </tr>
-          <tr></tr>
-          <tr>
-            <td>Ms. Nicole Zaidi</td>
-            <td>English</td>
-            <td><a href="mailto:nzaidi@ausd.net">nzaidi@ausd.net</a>
-              <a href="https://zaidiwriting.weebly.com" target="_blank" rel="noopener noreferrer" class="website"></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Ying Zhang</td>
-            <td>Math</td>
-            <td><a href="mailto:yzhang@ausd.net">yzhang@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Brian Zurla</td>
-            <td>Math</td>
-            <td><a href="mailto:bzurla@ausd.net">bzurla@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Rachel Andrade</td>
-            <td>Front Office Assistant</td>
-            <td><a href="mailto:randrade@ausd.net" target="_blank" rel="noopener noreferrer">randrade@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Shelly Aspeitia</td>
-            <td>ASB Office Assistant</td>
-            <td><a href="mailto:saspeitia@ausd.net" target="_blank" rel="noopener noreferrer">saspeitia@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mr. Elias Chavez</td>
-            <td>ASB Accounting Assistant</td>
-            <td><a href="mailto:echavez@ausd.net">echavez@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Liz Cloud</td>
-            <td>Dean's Secretary</td>
-            <td><a href="mailto:lcloud@ausd.net" target="_blank" rel="noopener noreferrer">lcloud@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Terri Darr</td>
-            <td>Attendance Office Technician</td>
-            <td><a href="mailto:tdarr@ausd.net" target="_blank" rel="noopener noreferrer">tdarr@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Kristen King</td>
-            <td>Counseling Secretary</td>
-            <td><a href="mailto:kristenking@ausd.net" target="_blank" rel="noopener noreferrer">kristenking@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Susan Lew</td>
-            <td>Athletics Office Assistant</td>
-            <td><a href="mailto:slew@ausd.net" target="_blank" rel="noopener noreferrer">slew@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Diane Novoa</td>
-            <td>Registrar</td>
-            <td><a href="mailto:dnovoa@ausd.net" target="_blank" rel="noopener noreferrer">dnovoa@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms. Susana Moreno</td>
-            <td>Curriculum Secretary</td>
-            <td><a href="mailto:somarsaid@ausd.net" target="_blank" rel="noopener noreferrer">smoreno@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Mrs. Shari Rudolph</td>
-            <td>Principal's Secretary</td>
-            <td>
-              <a href="mailto:srudolf@ausd.net">srudolph@ausd.net</a>
-            </td>
-          </tr>
-          <tr>
-            <td>Ms. Marianne von Kriegenbergh</td>
-            <td>Curriculum Secretary</td>
-            <td><a href="mailto:mvonkriegenbergh@ausd.net" target="_blank" rel="noopener noreferrer">mvonkriegenbergh@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms.Wona</td>
-            <td>Career Center Office Assistant</td>
-            <td><a href="mailto:twona@ausd.net" target="_blank" rel="noopener noreferrer">twona@ausd.net</a>
-          </tr>
-          <tr>
-            <td>Ms.Young</td>
-            <td>CTE Coordinator</td>
-            <td><a href="mailto:debbiey@ausd.net" target="_blank" rel="noopener noreferrer">debbiey@ausd.net</a>
-          </tr>
-        </table>
+        <div id='contact-wrapper'>
+          <form id='contact-filter'>
+            <input placeholder='search name'>
+          </form>
+          <table id='contact-list'>
+            <thead>
+              <tr>
+                <th>Teacher</th>
+                <th>Department</th>
+                <th>Links</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jeannie Ackerman</td>
+                <td>Social Science</td>
+                <td><a href='mailto:jackerman@ausd.net'>jackerman@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Laird Anderson</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:landerson@ausd.net'>landerson@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Ignacio Andrade</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:iandrade@ausd.net'>iandrade@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Hiroko Arndt</td>
+                <td>World Language</td>
+                <td><a href='mailto:harndt@ausd.net'>harndt@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Valdora Axtell</td>
+                <td>ELD</td>
+                <td><a href='mailto:vaxtell@ausd.net'>vaxtell@ausd.net</a>
+              </tr>
+              <tr></tr>
+              <tr>
+                <td>Jason Barclay</td>
+                <td>Social Science</td>
+                <td>
+                  <a href='mailto:jbarclay@ausd.net'>jbarclay@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/barclay-hush/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+              </tr>
+              <tr>
+                <td>Zachary Baroni</td>
+                <td>Science</td>
+                <td>
+                  <a href='mailto:zbaroni@ausd.net'>zbaroni@ausd.net</a>
+                  <a href='mailto:arcapes.weebly.com' target='_blank' rel='noopener noreferrer' class='website'></a>
+              </tr>
+              <tr>
+                <td>Oliver Beckwith</td>
+                <td>Social Science</td>
+                <td><a href='mailto:obeckwith@ausd.net'>obeckwith@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Cynthia Belzer</td>
+                <td>Social Science</td>
+                <td><a href='mailto:cbelzer@ausd.net'>cbelzer@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Paola Bisharat</td>
+                <td>English</td>
+                <td><a href='mailto:pbisharat@ausd.net'>pbisharat@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Kyle Blotzer</td>
+                <td>Physical Education</td>
+                <td><a href='mailto:kblotzer@ausd.net'>kblotzer@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/blotzer-ahspe/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Carol Bradley</td>
+                <td>Visual Arts</td>
+                <td><a href='https://sites.google.com/s/0B6EkmtuxEAMVY2xpbXpxbEVmeWc/p/0B6EkmtuxEAMVTy03LUpJZnE1REE/edit' target='_blank' rel='noopener noreferrer'>cbradley@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/artclassesf-104/home-page' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Heather Brown-Hom</td>
+                <td>Social Science</td>
+                <td><a href='mailto:hbrown@ausd.net'>hbrown@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Bill Chapman</td>
+                <td>Careers/Tech</td>
+                <td><a href='mailto:bchapman@ausd.net'>bchapman@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/chapman' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Pin Chen</td>
+                <td>Performing Arts</td>
+                <td><a href='mailto:pchen@ausd.net'>pchen@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/orchestra' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Janet Chuang</td>
+                <td>Math</td>
+                <td><a href='mailto:ahs.ausd.net' target='_blank' rel='noopener noreferrer'>jchuang@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Michael Cockroft</td>
+                <td>Math</td>
+                <td><a href='mailto:mcockroft@ausd.net'>mcockroft@ausd.net</a>
+                  <a href='https://mcockroft6.wixsite.com/website-1' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Charmaine Cordero</td>
+                <td>English</td>
+                <td><a href='mailto:ccordero@ausd.net'>ccordero@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Mylinh Crew</td>
+                <td>Math</td>
+                <td><a href='mailto:mcrew@ausd.net'>mcrew@ausd.net</a>
+              </tr>
+              <tr></tr>
+              <tr>
+                <td>Dorothy Daniel</td>
+                <td>Math</td>
+                <td><a href='mailto:ddaniel@ausd.net'>ddaniel@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/apcalcab/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Keith DeLuca</td>
+                <td>Stagecraft</td>
+                <td><a href='mailto:kdeluca@ausd.net' target='_blank' rel='noopener noreferrer'>kdeluca@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Ernest Delfin</td>
+                <td>English</td>
+                <td><a href='mailto:edelfin@ausd.net'>edelfin@ausd.net</a>
+                  <a href='https://misterdelfin.weebly.com' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Cathy DeSurra</td>
+                <td>English</td>
+                <td><a href='mailto:cdesurra@ausd.net'>cdesurra@ausd.net</a>
+                  <a href='https://sites.google.com/a/ausd.net/cdesurra' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Brian Devor</td>
+                <td>Science</td>
+                <td><a href='mailto:bdevor@ausd.net'>bdevor@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/ahs-mr-devor' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Jon Dimalante</td>
+                <td>PE</td>
+                <td><a href='mailto:jdimalante@ausd.net'>jdimalante@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Kathryn Doring</td>
+                <td>English</td>
+                <td><a href='mailto:kdoring@ausd.net'>kdoring@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Karen DuBerke</td>
+                <td>World Language</td>
+                <td><a href='mailto:kduberke@ausd.net'>kduberke@ausd.net</a>
+              </tr>
+              <tr></tr>
+              <tr>
+                <td>Mauricio Eguez</td>
+                <td>Science</td>
+                <td><a href='mailto:meguez@ausd.net'>meguez@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Brent Eldridge</td>
+                <td>English</td>
+                <td><a href='mailto:beldridge@ausd.net'>beldridge@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/arcadia-hs-avid/ahs-avid' target='_blank' rel='noopener' class='website' title='AVID'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>TaErickson</td>
+                <td>Math</td>
+                <td><a href='mailto:terickson@ausd.net'>terickson@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Michael Feraco-Eberle</td>
+                <td>English</td>
+                <td><a href='mailto:mferaco-eberle@ausd.net'>mferaco-eberle@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Tom Forbes</td>
+                <td>Performing Arts</td>
+                <td><a href='mailto:tforbes@ausd.net'>tforbes@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Kevin Fox</td>
+                <td>Social Science</td>
+                <td><a href='mailto:kfox@ausd.net'>kfox@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Ashley Frandsen</td>
+                <td>PE</td>
+                <td><a href='mailto:afrandsen@ausd.net'>afrandsen@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Jason Franz</td>
+                <td>PE</td>
+                <td><a href='mailto:jfranz@ausd.net'>jfranz@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Mike Freese</td>
+                <td>Social Science</td>
+                <td><a href='mailto:mfreese@ausd.net'>mfreese@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Marisa Gaeta-Catano</td>
+                <td>World Language</td>
+                <td><a href='mailto:mgaeta-catano@ausd.net'>mgaeta-catano@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Laura Galloway</td>
+                <td>SocialScience</td>
+                <td><a href='mailto:lgalloway@ausd.net'>lgalloway@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Jason Ganley</td>
+                <td>Visual Arts </td>
+                <td><a href='mailto:jganley@ausd.net'>jganley@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Breanne Genite</td>
+                <td>Performing Arts</td>
+                <td>
+                  <a href='mailto:bgenite@ausd.net'>bgenite@ausd.net</a>
+                  <a href='mailto:www.ahsorchesis.com' target='_blank' rel='noopener noreferrer' class='website' title='Orchesis'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Yumiko Goto</td>
+                <td>Science</td>
+                <td><a href='mailto:ygoto@ausd.net'>ygoto@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Paul Green</td>
+                <td>Social Science</td>
+                <td><a href='mailto:pgreen@ausd.net'>pgreen@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Robert Greep</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:rgreep@ausd.net'>rgreep@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Claudia Grubbs</td>
+                <td>English</td>
+                <td><a href='mailto:cdiaz@ausd.net'>cgrubbs@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Melissa Hatheway</td>
+                <td>English</td>
+                <td><a href='mailto:mhatheway@ausd.net'>mhatheway@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/ms-hat/home?authuser=0' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Christa Heinrich-Josties</td>
+                <td>Social Science</td>
+                <td><a href='mailto:cheinrichjosties@ausd.net'>cheinrichjosties@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Jean Hong</td>
+                <td>Math</td>
+                <td><a href='mailto:jhong@ausd.net'>jhong@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Samantha Hong</td>
+                <td>Math</td>
+                <td><a href='mailto:shong@ausd.net'>shong@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/mshong/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Ann Hsia</td>
+                <td>World Language</td>
+                <td><a href='mailto:ahsia@ausd.net'>ahsia@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Dave Jones</td>
+                <td>Social Science</td>
+                <td><a href='mailto:djones@ausd.net'>djones@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Tal Jones</td>
+                <td>Science</td>
+                <td><a href='mailto:tjones@ausd.net'>tjones@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Julie Jong</td>
+                <td>World Language</td>
+                <td><a href='mailto:jjong@ausd.net'>jjong@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Leslie Klipstein</td>
+                <td>English</td>
+                <td><a href='mailto:lklipstein@ausd.net'>lklipstein@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/arcadia-hs-avid/ahs-avid' target='_blank' rel='noopener' class='website' title='AVID'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Nathalie Krikorian</td>
+                <td>World Language</td>
+                <td><a href='mailto:nkrikorian@ausd.net'>nkrikorian@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Neda Kuso</td>
+                <td>Science</td>
+                <td><a href='mailto:nkuso@ausd.net'>nkuso@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/kuso/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Jennifer Landis</td>
+                <td>English</td>
+                <td><a href='mailto:jlandis@ausd.net'>jlandis@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Michael Lamb</td>
+                <td>Visual Arts</td>
+                <td><a href='mailto:mlamb@ausd.net'>mlamb@ausd.net</a>
+                  <a href='mailto:sites.google.com/ausd.net/mlamb-photo' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Cindy Latham</td>
+                <td>World Language</td>
+                <td><a href='mailto:clatham@ausd.net'>clatham@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Megan Leahy</td>
+                <td>Social Science</td>
+                <td><a href='mailto:mleahy@ausd.net'>mleahy@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Lesley Lee</td>
+                <td>English</td>
+                <td><a href='mailto:llee@ausd.net'>llee@ausd.net</a>
+                  <a href='https://sites.google.com/a/ausd.net/mrs-lee-s-class' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Nicholas Lemas</td>
+                <td>PE</td>
+                <td><a href='mailto:nlemas@ausd.net'>nlemas@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Jonathan Leung</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:jleung@ausd.net'>jleung@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Barry Lisbin</td>
+                <td>Math</td>
+                <td><a href='mailto:blisbin@ausd.net'>blisbin@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Cheryl Lopez</td>
+                <td>World Language</td>
+                <td><a href='mailto:clopez@ausd.net'>clopez@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Lisa Lucas</td>
+                <td>English</td>
+                <td><a href='mailto:llucas@ausd.net'>llucas@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Christine Ma</td>
+                <td>Visual Arts</td>
+                <td><a href='mailto:cma@ausd.net'>cma@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Logan Maertens</td>
+                <td>English</td>
+                <td><a href='mailto:lmaertens@ausd.net'>lmaertens@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Ivy Martinez</td>
+                <td>World Languages</td>
+                <td><a href='mailto:imartinez@ausd.net'>imartinez@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Nils Miller</td>
+                <td>Math</td>
+                <td><a href='mailto:nmiller@ausd.net'>nmiller@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/millermath/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Akarin Mittongtare</td>
+                <td>Food Science</td>
+                <td><a href='mailto:amittongtare@ausd.net'>amittongtare@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Craig Monden</td>
+                <td>Science</td>
+                <td><a href='mailto:cmonden@ausd.net'>cmonden@ausd.net</a>
+                  <a href='https://app.schoology.com/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Heather Moore</td>
+                <td>Social Science</td>
+                <td><a href='mailto:hmoore@ausd.net'>hmoore@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/hmoore-us-history' target='_blank' rel='noopener noreferrer' class='website' title='US History'></a>
+                  <a href='https://sites.google.com/ausd.net/moorewangapush' target='_blank' rel='noopener noreferrer' class='website' title='US History AP'></a>
+                  <a href='https://sites.google.com/ausd.net/sdaie-us-history' target='_blank' rel='noopener noreferrer' class='website' title='US History SDAIE'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Ing Mu</td>
+                <td>Visual Arts</td>
+                <td><a href='mailto:imu@ausd.net'>imu@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/mmu/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Seth Murphy</td>
+                <td>Performing Arts</td>
+                <td><a href='mailto:smurphy@ausd.net'>smurphy@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/bandpercussion/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Cherryl Mynster</td>
+                <td>Science</td>
+                <td><a href='mailto:cmynster@ausd.net'>cmynster@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Ray Mynster</td>
+                <td>Math/Athletics</td>
+                <td><a href='mailto:rmynster@ausd.net'>rmynster@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Bea Nairi</td>
+                <td>Math</td>
+                <td><a href='mailto:bnairi@ausd.net'>bnairi@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Patricia Naughtin</td>
+                <td>English</td>
+                <td><a href='mailto:tnaughtin@ausd.net'>tnaughtin@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Robin Neuwirth-Bishop</td>
+                <td>English</td>
+                <td><a href='mailto:rneuwirth-bishop@ausd.net'>rneuwirth-bishop@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Ashley Novak</td>
+                <td>English</td>
+                <td><a href='mailto:anovak@ausd.net'>anovak@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Frank Nunez</td>
+                <td>CTE</td>
+                <td><a href='mailto:fnunez@ausd.net'>fnunez@ausd.net</a>
+              </tr>
+              <tr>
+                <td>John Panza</td>
+                <td>Social Science</td>
+                <td><a href='mailto:jpanza@ausd.net'>jpanza@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Mike Pasqua</td>
+                <td>Social Science</td>
+                <td><a href='mailto:mpasqua@ausd.net'>mpasqua@ausd.net</a>
+                  <a href='https://sites.google.com/a/ausd.net/mr-pasqua' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Kristeen Pisano</td>
+                <td>Science</td>
+                <td><a href='mailto:kpisano@ausd.net'>kpisano@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Ryen Piszyk</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:rpiszyk@ausd.net'>rpiszyk@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Andrew Policky</td>
+                <td>Cross Age PE and Athletics</td>
+                <td><a href='mailto:apolicky@ausd.net'>apolicky@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Milica Protic</td>
+                <td>Athletics Director</td>
+                <td><a href='mailto:mprotic@ausd.net'>mprotic@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Kellie Purcey</td>
+                <td>Social Science</td>
+                <td><a href='mailto:kpurcey@ausd.net'>kpurcey@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Brent Reiske</td>
+                <td>Careers/Tech</td>
+                <td><a href='mailto:breiske@ausd.net'>breiske@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Guadalupe Rodriguez</td>
+                <td>World Language</td>
+                <td><a href='mailto:grodriguez@ausd.net'>grodriguez@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Mo Rolfe</td>
+                <td>Math</td>
+                <td><a href='mailto:mrolfe@ausd.net'>mrolfe@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Julia Rosenberg</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:jrosenberg@ausd.net'>jrosenberg@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Christopher Saucedo</td>
+                <td>Science</td>
+                <td><a href='mailto:mailto:saucedo.ahs.ausd.net'>csaucedo@ausd.net</a>
+                  <a href='https://csaucedo.weebly.com' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Chris Schultz</td>
+                <td>English</td>
+                <td><a href='mailto:cschultz@ausd.net'>cschultz@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Robin Serr</td>
+                <td>Visual Arts</td>
+                <td><a href='mailto:rserr@ausd.net'>rserr@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Jack Sessions</td>
+                <td>CTE</td>
+                <td><a href='mailto:jsessions@ausd.net' target='_blank' rel='noopener noreferrer'>jsessions@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Caven Shen</td>
+                <td>Careers/Tech</td>
+                <td><a href='mailto:cshen@ausd.net'>cshen@ausd.net</a>
+                  <a href='https://mrshen.atwebpages.com' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Kevin Sherrill</td>
+                <td>Performing Arts</td>
+                <td><a href='mailto:ksherrill@ausd.net'>ksherrill@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/bandpercussion/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Dave Silah</td>
+                <td>Math</td>
+                <td><a href='mailto:dsilah@ausd.net'>dsilah@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Samantha Silverman</td>
+                <td>World Languages</td>
+                <td><a href='mailto:ssilverman@ausd.net'>ssilverman@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Nicole Soliven</td>
+                <td>Science</td>
+                <td><a href='mailto:nsoliven@ausd.net'>nsoliven@ausd.net</a>
+                  <a href='https://sites.google.com/a/ausd.net/sciencewithsoliven20172018' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Ben Smith</td>
+                <td>Math</td>
+                <td><a href='mailto:bensmith@ausd.net'>bensmith@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Stefani Spitz</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:esspitz@ausd.net'>sspitz@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Maria Stemwell</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:mstemwell@ausd.net'>mstemwell@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Jessica Summers</td>
+                <td>World Language</td>
+                <td><a href='mailto:jsummers@ausd.net'>jsummers@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Amanda Svetich</td>
+                <td>Performing Arts</td>
+                <td><a href='mailto:asvetich@ausd.net'>asvetich@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Al Sylvia</td>
+                <td>English</td>
+                <td><a href='mailto:asylvia@ausd.net'>asylvia@ausd.net</a>
+              </tr>
+              <tr></tr>
+              <tr>
+                <td>Kristen Tedei</td>
+                <td>Math</td>
+                <td><a href='mailto:ktedei@ausd.net'>ktedei@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/tedei/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Liza Tedford</td>
+                <td>Performing Arts</td>
+                <td><a href='mailto:ltedford@ausd.net'>ltedford@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Vicky Valenzuela</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:vvalenzuela@ausd.net'>vvalenzuela@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Christina Vaughan</td>
+                <td>World Language</td>
+                <td><a href='mailto:cvaughan@ausd.net'>cvaughan@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Chris Villalobos</td>
+                <td>English</td>
+                <td><a href='mailto:cvillalobos@ausd.net'>cvillalobos@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Peter Vo</td>
+                <td>Science</td>
+                <td><a href='mailto:pvo@ausd.net'>pvo@ausd.net</a>
+                  <a href='https://mrvobiology.weebly.com' target='_blank' rel='noopener noreferrer' class='website'></a>
+                  <a href='https://arcapes.weebly.com' target='_blank' rel='noopener noreferrer' class='website'></a>
+              </tr>
+              <tr>
+                <td>Steven Volpe</td>
+                <td>Performing Arts</td>
+                <td><a href='mailto:svolpe@ausd.net'>svolpe@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Brian Walker</td>
+                <td>Math</td>
+                <td><a href='mailto:bwalker@ausd.net'>bwalker@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Gerry Wang</td>
+                <td>Social Science</td>
+                <td><a href='mailto:gwang@ausd.net'>gwang@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Sharyn Wang</td>
+                <td>Math</td>
+                <td>
+                  <a href='mailto:swang@ausd.net'>swang@ausd.net</a>
+                  <a href='https://sites.google.com/ausd.net/swang/home' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Sam Williams</td>
+                <td>Science</td>
+                <td><a href='mailto:swilliams@ausd.net'>swilliams@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Andrea Winston</td>
+                <td>Special Ed</td>
+                <td><a href='mailto:awinston@ausd.net'>awinston@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Matthew Wong</td>
+                <td>Social Science</td>
+                <td><a href='mailto:matthewwong@ausd.net' target='_blank' rel='noopener noreferrer'>matthewwong@ausd.net</a>
+                  <a href='https://wongedu.weebly.com' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Matthew Woodin</td>
+                <td>English</td>
+                <td><a href='mailto:mwoodin@ausd.net'>mwoodin@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Barbara Young</td>
+                <td>Science</td>
+                <td><a href='mailto:byoung@ausd.net'>byoung@ausd.net</a>
+              </tr>
+              <tr></tr>
+              <tr>
+                <td>Nicole Zaidi</td>
+                <td>English</td>
+                <td><a href='mailto:nzaidi@ausd.net'>nzaidi@ausd.net</a>
+                  <a href='https://zaidiwriting.weebly.com' target='_blank' rel='noopener noreferrer' class='website'></a>
+                </td>
+              </tr>
+              <tr>
+                <td>Ying Zhang</td>
+                <td>Math</td>
+                <td><a href='mailto:yzhang@ausd.net'>yzhang@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Brian Zurla</td>
+                <td>Math</td>
+                <td><a href='mailto:bzurla@ausd.net'>bzurla@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Rachel Andrade</td>
+                <td>Front Office Assistant</td>
+                <td><a href='mailto:randrade@ausd.net' target='_blank' rel='noopener noreferrer'>randrade@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Shelly Aspeitia</td>
+                <td>ASB Office Assistant</td>
+                <td><a href='mailto:saspeitia@ausd.net' target='_blank' rel='noopener noreferrer'>saspeitia@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Elias Chavez</td>
+                <td>ASB Accounting Assistant</td>
+                <td><a href='mailto:echavez@ausd.net'>echavez@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Liz Cloud</td>
+                <td>Dean's Secretary</td>
+                <td><a href='mailto:lcloud@ausd.net' target='_blank' rel='noopener noreferrer'>lcloud@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Terri Darr</td>
+                <td>Attendance Office Technician</td>
+                <td><a href='mailto:tdarr@ausd.net' target='_blank' rel='noopener noreferrer'>tdarr@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Kristen King</td>
+                <td>Counseling Secretary</td>
+                <td><a href='mailto:kristenking@ausd.net' target='_blank' rel='noopener noreferrer'>kristenking@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Susan Lew</td>
+                <td>Athletics Office Assistant</td>
+                <td><a href='mailto:slew@ausd.net' target='_blank' rel='noopener noreferrer'>slew@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Diane Novoa</td>
+                <td>Registrar</td>
+                <td><a href='mailto:dnovoa@ausd.net' target='_blank' rel='noopener noreferrer'>dnovoa@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Susana Moreno</td>
+                <td>Curriculum Secretary</td>
+                <td><a href='mailto:somarsaid@ausd.net' target='_blank' rel='noopener noreferrer'>smoreno@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Shari Rudolph</td>
+                <td>Principal's Secretary</td>
+                <td>
+                  <a href='mailto:srudolf@ausd.net'>srudolph@ausd.net</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Marianne von Kriegenbergh</td>
+                <td>Curriculum Secretary</td>
+                <td><a href='mailto:mvonkriegenbergh@ausd.net' target='_blank' rel='noopener noreferrer'>mvonkriegenbergh@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Ms.Wona</td>
+                <td>Career Center Office Assistant</td>
+                <td><a href='mailto:twona@ausd.net' target='_blank' rel='noopener noreferrer'>twona@ausd.net</a>
+              </tr>
+              <tr>
+                <td>Ms.Young</td>
+                <td>CTE Coordinator</td>
+                <td><a href='mailto:debbiey@ausd.net' target='_blank' rel='noopener noreferrer'>debbiey@ausd.net</a>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
       <section id='twitter' hidden>
         <h1>twitter</h1>
-        <a class='twitter-timeline' data-dnt='true' data-link-color='#42f' href='https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw'>Tweets by ArcadiaASB</a><script src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>
+        <div id='twitter-feed'></div>
       </section>
       <section id='instagram' hidden></section>
     </main>
     <div id='prerender' hidden>
       <div id='prerender-powwow-feed'>
         <script src='https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js'></script>
+      </div>
+      <div id='prerender-twitter-feed'>
+        <a class='twitter-timeline' data-dnt='true' data-link-color='#42f' href='https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw'>Tweets by ArcadiaASB</a><script src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>
       </div>
     </div>
     <script>
@@ -1261,6 +1302,7 @@ const doc = document,
       dom = {
         date:             doc.getElementById('time'),
         powwowFeed:       doc.getElementById('powwow-feed'),
+        twitterFeed:       doc.getElementById('twitter-feed'),
         notepad:          doc.getElementById('notepad'),
         scheduleSelector: doc.getElementById('schedule-select'),
         schedule:         Array.from(doc.getElementsByClassName('schedule')),
@@ -1273,7 +1315,8 @@ const doc = document,
         contactList:      doc.getElementById('contact-list')
       },
       prerender = {
-        powwowFeed:       doc.getElementById('prerender-powwow-feed')
+        powwowFeed:       doc.getElementById('prerender-powwow-feed'),
+        twitterFeed:       doc.getElementById('prerender-twitter-feed')
       },
       preferences = {
         darkMode: false,
@@ -1292,20 +1335,10 @@ const doc = document,
         }
       },
       filterIndex = (input) => {
-        let filter = input.toUpperCase();
-        let tr = dom.contactList.getElementsByTagName('tr');
-      
-        for (let i = 0; i < tr.length; i++) {
-          let td = tr[i].getElementsByTagName('td')[0];
-          if (td) {
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-              tr[i].style.display = "";
-            } else {
-              tr[i].style.display = "none";
-            }
-          }
-        }
+        Array.from(dom.contactList.getElementsByTagName('tr')).forEach((e)=>{
+          let td = e.getElementsByTagName('td')[0]
+          if(td) e.hidden = !( td.innerText.toUpperCase().indexOf(input.toUpperCase()) > -1 )
+        })
       }
 
 let deferredPrompt
@@ -1322,6 +1355,7 @@ dom.sectionSelector.addEventListener('input',(e)=>{
 
 window.addEventListener('beforeinstallprompt',(e)=>{
   deferredPrompt = e
+  dom.logoButton.setAttribute('title','install ahs.app')
 })
 
 dom.logoButton.addEventListener('click',()=>{
@@ -1329,15 +1363,6 @@ dom.logoButton.addEventListener('click',()=>{
 })
 
 dom.date.innerHTML = date.toLocaleDateString('en-US', {weekday:'long',month:'numeric', day:'numeric'})
-
-if(prerender.powwowFeed.innerText){
-  window.localStorage.setItem('powwowFeed',prerender.powwowFeed.innerHTML.slice(0,-134))
-  dom.powwowFeed.innerHTML = prerender.powwowFeed.innerHTML
-}else if(window.localStorage.getItem('powwowFeed')){
-  dom.powwowFeed.innerHTML = window.localStorage.getItem('powwowFeed')
-}else{
-  dom.powwowFeed.innerText = 'Cannot load feed.'
-}
 
 dom.notepad.innerText = preferences.notepad
 
@@ -1367,6 +1392,26 @@ setInterval(function(){
     // alert(e.children[1].innerText);
   })
 },2000)
+
+
+if(prerender.powwowFeed.innerText){
+  window.localStorage.setItem('powwowFeed',prerender.powwowFeed.innerHTML.slice(0,-134))
+  dom.powwowFeed.innerHTML = prerender.powwowFeed.innerHTML
+}else if(window.localStorage.getItem('powwowFeed')){
+  dom.powwowFeed.innerHTML = window.localStorage.getItem('powwowFeed')
+}else{
+  dom.powwowFeed.innerText = 'Cannot load feed.'
+}
+
+if(prerender.twitterFeed.innerText){
+  window.localStorage.setItem('twitterFeed',prerender.twitterFeed.innerHTML)
+  dom.twitterFeed.innerHTML = prerender.twitterFeed.innerHTML
+}else if(window.localStorage.getItem('twitterFeed')){
+  dom.twitterFeed.innerHTML = window.localStorage.getItem('twitterFeed')
+}else{
+  dom.twitterFeed.innerText = 'Cannot load feed.'
+}
+
     </script>
   </body>
 </html>
