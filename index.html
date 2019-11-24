@@ -21,12 +21,19 @@ if('serviceWorker' in navigator) {
   font-display:swap;
   font-weight:100 700;
 }
+:root{
+  --background:#fff;
+  --shade:#eee;
+  --primary:#f26;
+  --link:#62f;
+  --text:#444;
+  --heading:#222;
+}
+
 *{
   box-sizing:border-box;
-}
-*{
-  border:0;
-  background:0;
+  border:none;
+  background:none;
   color:inherit;
 }
 *:focus{
@@ -36,16 +43,9 @@ if('serviceWorker' in navigator) {
   color:var(--background);
   background:var(--primary);
 }
+
 html{
   font-size:20px;
-}
-:root{
-  --background:#fff;
-  --shade:#eee;
-  --primary:#f26;
-  --link:#62f;
-  --text:#444;
-  --heading:#222;
 }
 html,body{
   margin:0;
@@ -60,14 +60,6 @@ body{
   color:var(--text);
   text-transform:lowercase;
   cursor:default;
-}
-header{
-  width:100%;
-  margin-left:-.05rem;
-  color:var(--primary);
-  text-align:center;
-  font-size:.75rem;
-  font-weight:500;
 }
 main{
   scroll-snap-type:x mandatory;
@@ -161,7 +153,7 @@ h1{
   outline:solid var(--shade) .5rem;
 }
 
-.video,.pdf,#notepad,.schedule,#contact-filter,#contact-list{
+.video,.pdf,#notepad,.schedule,#contact-filter,#contact-list-wrapper{
   border:solid .2rem var(--primary);
 }
 .schedule{
@@ -221,6 +213,10 @@ a:visited{
 
 #contact-filter{
   margin-bottom:0;
+  position:sticky;
+  top:0;
+  background:var(--background);
+  z-index:2;
 }
 #contact-filter>input{
   width:100%;
@@ -230,14 +226,14 @@ a:visited{
   font-size:1rem;
 }
 
-#contact-list{
+#contact-list-wrapper{
+  width:100%;
+  overflow-x:scroll;
   font-variation-settings:'wdth' 85;
   margin-top:-.2rem;
-  width:100%;
-}
-#contact-list>tbody>tr{
   text-align:center;
 }
+
 tr:hover{
   background:var(--shade);
 }
@@ -500,7 +496,8 @@ a.website:hover,a.website:focus{
           <form id='contact-filter'>
             <input placeholder='search name'>
           </form>
-          <table id='contact-list'>
+          <div id='contact-list-wrapper'>
+            <table id='contact-list'>
             <thead>
               <tr>
                 <th>Teacher</th>
@@ -1278,6 +1275,7 @@ a.website:hover,a.website:focus{
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </section>
       <section id='twitter' hidden>
