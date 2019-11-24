@@ -15,7 +15,12 @@ if('serviceWorker' in navigator) {
 }
   	</script>
     <style>
-@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500&display=swap');
+@font-face{
+  font-family:'ibm plex sans';
+  src: url('ibm-plex/sans-variable.woff2') format('woff2');
+  font-display:swap;
+  font-weight:100 700;
+}
 *{
   box-sizing:border-box;
 }
@@ -42,7 +47,7 @@ html,body{
 body{
   background:var(--background);
   background-size:100% 100%;
-  font-family:'IBM Plex Sans',monospace;
+  font-family:'ibm plex sans',monospace;
   font-weight:400;
   color:var(--text);
   text-transform:lowercase;
@@ -216,6 +221,9 @@ a:visited{
   color:var(--link);
   filter:brightness(.8);
 }
+#powwow-feed{
+  text-transform:none;
+}
 .feed-item-title{
   width:92%;
   margin-left:2%;
@@ -247,6 +255,16 @@ a:visited{
     clip-path:inset(8vw 0 0 0);
     transform:translateY(-8vw);
     color:var(--text);
+  }
+}
+@media screen and (max-width:500px){
+  #schedule-select>label{
+    font-variation-settings:'wdth' 85;
+  }
+}
+@media screen and (max-width:1100px) and (min-width:800px){
+  #schedule-select>label{
+    font-variation-settings:'wdth' 85;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -460,14 +478,16 @@ a:visited{
       <section id='powwow'>
         <h1>pow wow</h1>
         <div id='powwow-feed'>
-          <script src='https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js' defer></script>
+          <script src='https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js'></script>
         </div>
         <div>read more at the <a href='https://theapachepowwow.net'>apache pow wow</a> website.</div>
       </section>
-      <section id='contacts'></section>
+      <section id='contacts'>
+        <h1>Contacts</h1>
+      </section>
       <section id='twitter' hidden>
         <h1>twitter</h1>
-        <a class='twitter-timeline' data-dnt='true' data-link-color='#42f' href='https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw'>Tweets by ArcadiaASB</a> <script src='https://platform.twitter.com/widgets.js' charset='utf-8' async></script>
+        <a class='twitter-timeline' data-dnt='true' data-link-color='#42f' href='https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw'>Tweets by ArcadiaASB</a><script src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>
       </section>
       <section id='instagram' hidden></section>
     </main>
@@ -479,7 +499,7 @@ const doc = document,
         powwowFeed:       doc.getElementById('powwow-feed'),
         notepad:          doc.getElementById('notepad'),
         scheduleSelector: doc.getElementById('schedule-select'),
-        schedule:         doc.getElementsByClassName('schedule'),
+        schedule:         Array.from(doc.getElementsByClassName('schedule')),
         main:             doc.getElementsByTagName('main')[0],
         sectionSelector:  doc.getElementById('section-select'),
         sectionSelectorInputs: Array.from(doc.querySelectorAll('#section-select>input')),
@@ -541,13 +561,13 @@ dom.notepad.addEventListener('keyup',()=>{
 
 if(date.getDay() === 3){
   doc.getElementById('schedule-select-wed').checked = true;
-  Array.from(dom.schedule).forEach((f)=>{
+  dom.schedule.forEach((f)=>{
     f.hidden = (f !== doc.getElementById('schedule-wed'))
   })
 }
 
 dom.scheduleSelector.addEventListener('input',function(e){
-  Array.from(dom.schedule).forEach((f)=>{
+  dom.schedule.forEach((f)=>{
     f.hidden = (f !== doc.getElementById('schedule-'+e.target.value))
   })
 })
