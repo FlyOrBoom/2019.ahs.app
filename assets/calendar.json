@@ -1,0 +1,166 @@
+{
+  "2019-11-25": {
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-11-26": {
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-11-27": {
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-11-28": {
+    "description":"Thanksgiving",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-11-29": {
+    "description":"Thanksgiving",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-12-17": {
+    "no-school": false, "minimum-day": true, "collaboration-day": false
+  },
+  "2019-12-18": {
+    "no-school": false, "minimum-day": true, "collaboration-day": false
+  },
+  "2019-12-19": {
+    "no-school": false, "minimum-day": true, "collaboration-day": false
+  },
+  "2019-12-20": {
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-12-23": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-12-24": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-12-25": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-12-26": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-12-27": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-12-30": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2019-12-31": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-01-01": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-01-02": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-01-03": {
+    "description":"Winter Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-01-16": {
+    "no-school": false, "minimum-day": false, "collaboration-day": true
+  },
+  "2020-01-20": {
+    "description":"Martin Luther King Jr. Day",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-02-06": {
+    "no-school": false, "minimum-day": false, "collaboration-day": true
+  },
+  "2020-02-17": {
+    "description": "Presidents' Day",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-03-05": {
+    "no-school": false, "minimum-day": false, "collaboration-day": true
+  },
+  "2020-03-16": {
+    "description": "District Holiday",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-03-24 18:00": {
+    "description": "Profiles in Excellence Event",
+    "end": "2020-03-24 19:00",
+    "location": "First Avenue Auditorium",
+    "no-school": false, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-03-26": {
+    "no-school": false, "minimum-day": false, "collaboration-day": true
+  },
+  "2020-04-02 16:00": {
+    "description": "Spring Preview",
+    "end": "2020-04-02 18:00",
+    "location": "Arcadia High School",
+    "no-school": false, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-04-03": {
+    "no-school": false, "minimum-day": true, "collaboration-day": false
+  },
+  "2020-04-06": {
+    "description":"Spring Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-04-07": {
+    "description":"Spring Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-04-08": {
+    "description":"Spring Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-04-09": {
+    "description":"Spring Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-04-10": {
+    "description":"Spring Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-05-25": {
+    "description":"Spring Break",
+    "no-school": true, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-05-28 18:00": {
+    "description": "Senior Awards Night",
+    "end": "2020-05-28 2:000",
+    "location": "Performing Arts Center",
+    "no-school": false, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-05-31 17:00": {
+    "description": "Baccalaureate",
+    "end": "2020-05-31 19:00",
+    "location": "Performing Arts Center",
+    "no-school": false, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-06-01": {
+    "no-school": false, "minimum-day": true, "collaboration-day": false
+  },
+  "2020-06-02": {
+    "no-school": false, "minimum-day": true, "collaboration-day": false
+  },
+  "2020-06-03": {
+    "description": "Last day of school",
+    "no-school": false, "minimum-day": true, "collaboration-day": false
+  },
+  "2020-08-13 09:00": {
+    "description": "First Day of School (Late Start)",
+    "end": "2020-08-13 15:00",
+    "no-school": false, "minimum-day": false, "collaboration-day": false
+  },
+  "2020-09-03 16:00": {
+    "description": "Back to School Night",
+    "end": "2020-09-03 2:000",
+    "no-school": false, "minimum-day": false, "collaboration-day": false
+  }
+}
