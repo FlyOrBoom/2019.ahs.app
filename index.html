@@ -12,6 +12,8 @@
   	<script>
 if('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js')
+  navigator.serviceWorker.addEventListener('message', event => {
+  })
 }
   	</script>
     <style>
@@ -122,6 +124,21 @@ h1{
   color:var(--link);
 }
 
+
+#pwa-button{
+  font-size:inherit;
+  color:var(--link);
+  cursor:pointer;
+  padding:.2rem;
+}
+#pwa-button:hover{
+  background:var(--shade);
+}
+#pwa-button,
+#section-select>label{
+  border:.2rem solid var(--shade);
+}
+
 #section-select>input{
   display:none;
 }
@@ -149,11 +166,20 @@ h1{
   padding:.2rem;
   margin-bottom:1rem;
 }
-#notepad:focus,#contact-wrapper:focus-within{
+
+#notepad:focus,
+#contact-wrapper:focus-within{
   outline:solid var(--shade) .5rem;
 }
 
-.video,.pdf,#notepad,.schedule,#contact-filter,#contact-list-wrapper{
+#section-select>input:checked+label,
+.video,
+.pdf,
+#notepad,
+.schedule,
+#contact-filter,
+#contact-list-wrapper,
+#apn-feed>iframe{
   border:solid .2rem var(--primary);
 }
 .schedule{
@@ -188,12 +214,13 @@ tr.highlighted{
   background:var(--primary);
   font-weight:500;
 }
-.pdf{
-  height:calc(100% - 3.5rem);
+
+#apn-feed>iframe{
+  width:100%;
+  height:calc((50vw - 1rem) / 16 * 9);
+  margin:.5rem 0;
 }
-.video{
-  height:28.125vw;
-}
+
 a{
   text-decoration:none;
   color:var(--link);
@@ -232,6 +259,13 @@ a:visited{
   font-variation-settings:'wdth' 85;
   margin-top:-.2rem;
   text-align:center;
+  line-height:1;
+}
+#contact-list>thead>tr>th{
+  padding:.5rem;
+}
+#contact-list>tbody>tr>td{
+  padding:.25rem;
 }
 
 tr:hover{
@@ -271,8 +305,8 @@ a.website:hover,a.website:focus{
   section:nth-of-type(2),section:nth-of-type(3){
     flex:0 0 calc(100vw - 4rem);
   }
-  .video{
-    height:54.25vw;
+  #apn-feed>iframe{
+    height:calc((100vw - 1rem) / 16 * 9);
   }
 }
 @media screen and (max-width:500px){
@@ -312,7 +346,6 @@ a.website:hover,a.website:focus{
             <text y='13.5' x='50%' width='100%'>ahs</text>
             <circle cx='50%' cy='50%' r='1'/>
             <text y='26' x='50%'>app</text>
-            <path id='install-pwa' d='M29 0v6M32 3h-6'/>
           </svg>
         </button>
         <a target='_blank' href='https://classroom.google.com' title='google classroom'>
@@ -338,6 +371,7 @@ a.website:hover,a.website:focus{
         <!--<a target='_blank' href='https://student.naviance.com/arcadiahs' title='Naviance'></a>-->
       </section>
       <section id='edit' hidden>
+        <button id='pwa-button' hidden>Install ahs.app</button>
         <h1>edit sections</h1>
         <form id='section-select'>
           <input type='checkbox' name='section-select' id='section-select-agenda' value='0' checked>
@@ -359,7 +393,7 @@ a.website:hover,a.website:focus{
       </section>
       <section id='agenda'>
         <h1>agenda</h1>
-        <div id='notepad' contenteditable></div>
+        <div id='notepad' contenteditable>loading...</div>
         <form id='schedule-select'>
           <input type='radio' name='schedule-select' id='schedule-select-normal' value='normal' checked>
           <label for='schedule-select-normal'>normal</label>
@@ -478,15 +512,23 @@ a.website:hover,a.website:focus{
       </section>
       <section id='bulletin'>
         <h1>bulletin</h1>
-        <object class='pdf' data='assets/bulletin.pdf'></object>
+        <h2></h2>
       </section>
       <section id='apn'>
         <h1>apache news</h1>
-        <embed class='video' src='https://www.youtube-nocookie.com/embed/live_stream?channel=UC6G_LCSmfd9q34BMao87E0g'/>
+        <div id='apn-feed'>
+          <iframe src='https://www.youtube-nocookie.com/embed/live_stream?channel=UC6G_LCSmfd9q34BMao87E0g'></iframe>
+          <iframe src='https://www.youtube-nocookie.com/embed/videoseries?list=PL07a5R_B4sI7cZtG4nhbpNbknXayBvVJo&amp;index=0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+          <iframe src='https://www.youtube-nocookie.com/embed/videoseries?list=PL07a5R_B4sI7cZtG4nhbpNbknXayBvVJo&amp;index=1' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+          <iframe src='https://www.youtube-nocookie.com/embed/videoseries?list=PL07a5R_B4sI7cZtG4nhbpNbknXayBvVJo&amp;index=2' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+          <iframe src='https://www.youtube-nocookie.com/embed/videoseries?list=PL07a5R_B4sI7cZtG4nhbpNbknXayBvVJo&amp;index=3' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+        </div>
+        <div>watch more at the <a href='https://www.youtube.com/channel/UC6G_LCSmfd9q34BMao87E0g'>apache news</a> youtube channel.</div>
       </section>
       <section id='powwow'>
         <h1>pow wow</h1>
         <div id='powwow-feed'>
+          <script src='https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js'></script>
         </div>
         <div>read more at the <a href='https://theapachepowwow.net'>apache pow wow</a> website.</div>
       </section>
@@ -1280,25 +1322,19 @@ a.website:hover,a.website:focus{
       </section>
       <section id='twitter' hidden>
         <h1>twitter</h1>
-        <div id='twitter-feed'></div>
+        <div id='twitter-feed'>
+          <a class='twitter-timeline' data-dnt='true' data-link-color='#42f' href='https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw'>Tweets by ArcadiaASB</a><script src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>
+        </div>
       </section>
       <section id='instagram' hidden></section>
     </main>
-    <div id='prerender' hidden>
-      <div id='prerender-powwow-feed'>
-        <script src='https://rss.bloople.net/?url=https%3A%2F%2Ftheapachepowwow.net%2Ffeed&amp;showtitle=false&amp;type=js'></script>
-      </div>
-      <div id='prerender-twitter-feed'>
-        <a class='twitter-timeline' data-dnt='true' data-link-color='#42f' href='https://twitter.com/ArcadiaASB?ref_src=twsrc%5Etfw'>Tweets by ArcadiaASB</a><script src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>
-      </div>
-    </div>
     <script>
 const doc = document,
       date = new Date(),
       dom = {
         date:             doc.getElementById('time'),
         powwowFeed:       doc.getElementById('powwow-feed'),
-        twitterFeed:       doc.getElementById('twitter-feed'),
+        twitterFeed:      doc.getElementById('twitter-feed'),
         notepad:          doc.getElementById('notepad'),
         scheduleSelector: doc.getElementById('schedule-select'),
         schedule:         Array.from(doc.getElementsByClassName('schedule')),
@@ -1307,17 +1343,180 @@ const doc = document,
         sectionSelectorInputs: Array.from(doc.querySelectorAll('#section-select>input')),
         section:          Array.from(doc.getElementsByTagName('section')),
         logoButton:       doc.getElementById('logo-button'),
+        pwaButton:        doc.getElementById('pwa-button'),
         contactFilter:    doc.getElementById('contact-filter'),
         contactList:      doc.getElementById('contact-list')
-      },
-      prerender = {
-        powwowFeed:       doc.getElementById('prerender-powwow-feed'),
-        twitterFeed:       doc.getElementById('prerender-twitter-feed')
       },
       preferences = {
         darkMode: false,
         hidden:   window.localStorage.getItem('hidden') ? JSON.parse(window.localStorage.getItem('hidden')) : [false,false,false,false,false,true,true],
-        notepad:  window.localStorage.getItem('notepad') ? window.localStorage.getItem('notepad') : 'write stuff here. everything is auto-saved locally on your computer.'
+        notepad:  window.localStorage.getItem('notepad') ? window.localStorage.getItem('notepad') : 'a notepad which autosaves to your device.'
+      },
+      calendar = {
+        "2019-11-25": {
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-11-26": {
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-11-27": {
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-11-28": {
+          "description":"Thanksgiving",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-11-29": {
+          "description":"Thanksgiving",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-12-17": {
+          "no-school": false, "minimum-day": true, "collaboration-day": false
+        },
+        "2019-12-18": {
+          "no-school": false, "minimum-day": true, "collaboration-day": false
+        },
+        "2019-12-19": {
+          "no-school": false, "minimum-day": true, "collaboration-day": false
+        },
+        "2019-12-20": {
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-12-23": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-12-24": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-12-25": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-12-26": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-12-27": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-12-30": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2019-12-31": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-01-01": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-01-02": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-01-03": {
+          "description":"Winter Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-01-16": {
+          "no-school": false, "minimum-day": false, "collaboration-day": true
+        },
+        "2020-01-20": {
+          "description":"Martin Luther King Jr. Day",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-02-06": {
+          "no-school": false, "minimum-day": false, "collaboration-day": true
+        },
+        "2020-02-17": {
+          "description": "Presidents' Day",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-03-05": {
+          "no-school": false, "minimum-day": false, "collaboration-day": true
+        },
+        "2020-03-16": {
+          "description": "District Holiday",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-03-24 18:00": {
+          "description": "Profiles in Excellence Event",
+          "end": "2020-03-24 19:00",
+          "location": "First Avenue Auditorium",
+          "no-school": false, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-03-26": {
+          "no-school": false, "minimum-day": false, "collaboration-day": true
+        },
+        "2020-04-02 16:00": {
+          "description": "Spring Preview",
+          "end": "2020-04-02 18:00",
+          "location": "Arcadia High School",
+          "no-school": false, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-04-03": {
+          "no-school": false, "minimum-day": true, "collaboration-day": false
+        },
+        "2020-04-06": {
+          "description":"Spring Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-04-07": {
+          "description":"Spring Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-04-08": {
+          "description":"Spring Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-04-09": {
+          "description":"Spring Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-04-10": {
+          "description":"Spring Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-05-25": {
+          "description":"Spring Break",
+          "no-school": true, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-05-28 18:00": {
+          "description": "Senior Awards Night",
+          "end": "2020-05-28 2:000",
+          "location": "Performing Arts Center",
+          "no-school": false, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-05-31 17:00": {
+          "description": "Baccalaureate",
+          "end": "2020-05-31 19:00",
+          "location": "Performing Arts Center",
+          "no-school": false, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-06-01": {
+          "no-school": false, "minimum-day": true, "collaboration-day": false
+        },
+        "2020-06-02": {
+          "no-school": false, "minimum-day": true, "collaboration-day": false
+        },
+        "2020-06-03": {
+          "description": "Last day of school",
+          "no-school": false, "minimum-day": true, "collaboration-day": false
+        },
+        "2020-08-13 09:00": {
+          "description": "First Day of School (Late Start)",
+          "end": "2020-08-13 15:00",
+          "no-school": false, "minimum-day": false, "collaboration-day": false
+        },
+        "2020-09-03 16:00": {
+          "description": "Back to School Night",
+          "end": "2020-09-03 2:000",
+          "no-school": false, "minimum-day": false, "collaboration-day": false
+        }
       },
       edit = () => {
         dom.section[1].hidden=!dom.section[1].hidden
@@ -1339,6 +1538,7 @@ const doc = document,
 
 let deferredPrompt
 
+
 dom.sectionSelectorInputs.forEach((input,index)=>{
   input.checked = !preferences.hidden[index]
   sync.hidden(index,false)
@@ -1351,12 +1551,14 @@ dom.sectionSelector.addEventListener('input',(e)=>{
 
 window.addEventListener('beforeinstallprompt',(e)=>{
   deferredPrompt = e
-  dom.logoButton.setAttribute('title','install ahs.app')
+  dom.pwaButton.hidden = false
+  dom.pwaButton.addEventListener('click',()=>{
+    deferredPrompt.prompt()
+    pwaButton.hidden = true
+  })
 })
 
-dom.logoButton.addEventListener('click',()=>{
-  deferredPrompt ? deferredPrompt.prompt() : edit()
-})
+dom.logoButton.addEventListener('click',edit)
 
 dom.date.innerHTML = date.toLocaleDateString('en-US', {weekday:'long',month:'numeric', day:'numeric'})
 
@@ -1383,31 +1585,11 @@ dom.scheduleSelector.addEventListener('input',(e)=>{
   })
 })
 
-setInterval(function(){
-  Array.from(dom.schedule[1].children).reverse.forEach((e)=>{
+// setInterval(function(){
+  // Array.from(dom.schedule[1].children).reverse.forEach((e)=>{
     // alert(e.children[1].innerText);
-  })
-},2000)
-
-
-if(prerender.powwowFeed.innerText){
-  window.localStorage.setItem('powwowFeed',prerender.powwowFeed.innerHTML.slice(0,-134))
-  dom.powwowFeed.innerHTML = prerender.powwowFeed.innerHTML
-}else if(window.localStorage.getItem('powwowFeed')){
-  dom.powwowFeed.innerHTML = window.localStorage.getItem('powwowFeed')
-}else{
-  dom.powwowFeed.innerText = 'Cannot load feed.'
-}
-
-if(prerender.twitterFeed.innerText){
-  window.localStorage.setItem('twitterFeed',prerender.twitterFeed.innerHTML)
-  dom.twitterFeed.innerHTML = prerender.twitterFeed.innerHTML
-}else if(window.localStorage.getItem('twitterFeed')){
-  dom.twitterFeed.innerHTML = window.localStorage.getItem('twitterFeed')
-}else{
-  dom.twitterFeed.innerText = 'Cannot load feed.'
-}
-
+  // })
+// },2000)
     </script>
   </body>
 </html>
