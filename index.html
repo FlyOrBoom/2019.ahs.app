@@ -364,11 +364,11 @@ a.website:hover,a.website:focus{
           <input type='radio' name='schedule-select' id='schedule-select-normal' value='normal' checked>
           <label for='schedule-select-normal'>normal</label>
           <input type='radio' name='schedule-select' id='schedule-select-wed' value='wed'>
-          <label for='schedule-select-wed'>late start</label>
-          <input type='radio' name='schedule-select' id='schedule-select-mini' value='mini'>
-          <label for='schedule-select-mini'>collab day</label>
-          <input type='radio' name='schedule-select' id='schedule-select-last' value='last'>
-          <label for='schedule-select-last'>finals day</label>
+          <label for='schedule-select-wed'>wed</label>
+          <input type='radio' name='schedule-select' id='schedule-select-collab' value='mini'>
+          <label for='schedule-select-collab'>collab</label>
+          <input type='radio' name='schedule-select' id='schedule-select-finals' value='last'>
+          <label for='schedule-select-finals'>finals</label>
         </form>
         <table class='schedule' id='schedule-normal'>
           <tr>
@@ -444,7 +444,7 @@ a.website:hover,a.website:focus{
             <td>03:00</td>
           </tr>
         </table>
-        <table class='schedule' id='schedule-mini' hidden>
+        <table class='schedule' id='schedule-collab' hidden>
           <tr>
             <td>1</td>
             <td>08:00</td>
@@ -476,36 +476,16 @@ a.website:hover,a.website:focus{
             <td>11:40</td>
           </tr>
         </table>
-        <table class='schedule' id='schedule-last' hidden>
+        <table class='schedule' id='schedule-finals' hidden>
           <tr>
             <td>1</td>
             <td>08:00</td>
             <td>10:02</td>
           </tr>
           <tr>
-            <td>Break</td>
-            <td>10:02</td>
-            <td>10:27</td>
-          </tr>
-          <tr>
             <td>2</td>
             <td>10:27</td>
             <td>12:29</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
           </tr>
         </table>
         <div id='time'></div>
